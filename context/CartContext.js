@@ -30,8 +30,15 @@ export function CartProvider({ children }) {
     setCart((prev) => [...prev, product]);
   };
 
-  const removeFromCart = (index) => {
-    setCart((prev) => prev.filter((_, i) => i !== index));
+  // Remove the first occurrence of a product with the given id
+  const removeFromCart = (productId) => {
+    setCart((prev) => {
+      const index = prev.findIndex((item) => item.id === productId);
+      if (index === -1) return prev;
+      const next = [...prev];
+      next.splice(index, 1);
+      return next;
+    });
   };
 
   return (

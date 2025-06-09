@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
 
 export default function ProductCard({ product }) {
@@ -8,15 +9,19 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="rounded-xl overflow-hidden shadow-md bg-white transition-transform transform hover:-translate-y-1 hover:shadow-lg">
-<img
-  src={product.images[selectedColor]}
-  alt={product.title}
-  className="w-full h-48 object-cover rounded"
-/>
-
+      <Link href={`/product/${product.id}`}>
+        <img
+          src={product.images[selectedColor]}
+          alt={product.title}
+          className="w-full h-48 object-cover rounded"
+        />
+      </Link>
 
       <div className="p-4 flex flex-col">
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">{product.title}</h2>
+        <Link href={`/product/${product.id}`}
+          className="block hover:underline">
+          <h2 className="text-lg font-semibold text-gray-900 mb-1">{product.title}</h2>
+        </Link>
 
         <div className="flex items-center justify-between mb-3">
           <p className="text-lg font-bold text-gray-800">₹{product.price}</p>

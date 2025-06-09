@@ -4,7 +4,20 @@ import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 
 export default function CartPage() {
-  const { cart } = useContext(CartContext);
+  const { cart, addToCart, removeFromCart } = useContext(CartContext);
+
+  // Group cart items by product id
+  const grouped = cart.reduce((acc, item) => {
+    const existing = acc[item.id];
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      acc[item.id] = { ...item, quantity: 1 };
+    }
+    return acc;
+  }, {});
+  const items = Object.values(grouped);
+
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   return (
@@ -20,9 +33,9 @@ export default function CartPage() {
         ) : (
           <>
             <div className="space-y-4">
-              {cart.map((item, index) => (
+              {items.map((item) => (
                 <div
-                  key={index}
+                  key={item.id}
                   className="flex items-center gap-4 bg-white border rounded-lg p-4 shadow-sm"
                 >
                   <img
@@ -32,7 +45,24 @@ export default function CartPage() {
                   />
                   <div className="flex-1">
                     <h2 className="font-medium text-gray-800">{item.title}</h2>
-                    <p className="text-sm text-gray-500 mt-1">₹{item.price}</p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      ₹{item.price * item.quantity}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="w-7 h-7 rounded-full bg-gray-100 text-gray-900"
+                    >
+                      −
+                    </button>
+                    <span className="px-2">{item.quantity}</span>
+                    <button
+                      onClick={() => addToCart(item)}
+                      className="w-7 h-7 rounded-full bg-gray-100 text-gray-900"
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
               ))}

@@ -1,9 +1,12 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { CartContext } from '@/context/CartContext';
+import { LocationContext } from '@/context/LocationContext';
 import Navbar from '@/components/Navbar';
 
 export default function Checkout() {
   const { cart } = useContext(CartContext);
+  const { address: savedAddress, pincode: savedPin, setAddress, setPincode } =
+    useContext(LocationContext);
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   const [form, setForm] = useState({
@@ -15,12 +18,35 @@ export default function Checkout() {
     payment: 'cod',
   });
 
+  useEffect(() => {
+    if (savedAddress || savedPin) {
+      setForm((prev) => ({
+        ...prev,
+        name: savedAddress?.name || prev.name,
+        phone: savedAddress?.phone || prev.phone,
+        address: savedAddress?.street || prev.address,
+        city: savedAddress?.city || prev.city,
+        pincode: savedAddress?.pincode || savedPin || prev.pincode,
+      }));
+    }
+    // we only want to run this when the saved values change
+  }, [savedAddress, savedPin]);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // persist the address so future visits can be pre-filled
+    setAddress({
+      name: form.name,
+      street: form.address,
+      city: form.city,
+      phone: form.phone,
+      pincode: form.pincode,
+    });
+    setPincode(form.pincode);
     if (form.payment === 'razorpay') {
       alert('💳 Razorpay would trigger here.');
     } else {
@@ -40,6 +66,7 @@ export default function Checkout() {
               name={field}
               placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
               required
+              value={form[field]}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
             />

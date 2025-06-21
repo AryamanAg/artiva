@@ -1,5 +1,5 @@
 import ProductCard from '@/components/ProductCard';
-import { sampleProducts } from '@/lib/data';
+import { products } from '@/lib/products';
 
 
 
@@ -11,7 +11,7 @@ export default function Home() {
     		Explore Our Collection
   		</h1>
 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-  {sampleProducts.map((product) => (
+  {products.map((product) => (
     <ProductCard key={product.id} product={product} />
   ))}
 </div>

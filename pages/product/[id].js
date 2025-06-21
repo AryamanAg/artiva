@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { sampleProducts } from '@/lib/data';
+import { products } from '@/lib/products';
 import { CartContext } from '@/context/CartContext';
 
 export default function ProductPage({ product }) {
@@ -8,11 +8,10 @@ export default function ProductPage({ product }) {
   const [selectedSize, setSelectedSize] = useState('Medium');
 
   const price =
-    product.sizes?.[selectedSize]?.price !== undefined
-      ? product.sizes[selectedSize].price
+    product.basePrice?.[selectedSize.toLowerCase()] !== undefined
+      ? product.basePrice[selectedSize.toLowerCase()]
       : product.price;
-  const displayedImage =
-    product.sizes?.[selectedSize]?.image || product.images[selectedColor];
+  const displayedImage = product.images[selectedColor];
 
   if (!product) return <div className="p-4">Product not found</div>;
 
@@ -44,7 +43,7 @@ export default function ProductPage({ product }) {
           <p className="text-xl font-bold text-gray-800 mb-4">₹{price}</p>
 
           <div className="flex flex-col sm:flex-row gap-2 mb-6">
-            {['Small', 'Medium', 'Large'].map((size) => (
+            {['Small', 'Medium', 'Large', 'Set'].map((size) => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
@@ -77,11 +76,11 @@ export default function ProductPage({ product }) {
 }
 
 export async function getStaticPaths() {
-  const paths = sampleProducts.map((p) => ({ params: { id: p.id } }));
+  const paths = products.map((p) => ({ params: { id: p.id } }));
   return { paths, fallback: false };
 }
 
 export async function getStaticProps({ params }) {
-  const product = sampleProducts.find((p) => p.id === params.id) || null;
+  const product = products.find((p) => p.id === params.id) || null;
   return { props: { product } };
 }

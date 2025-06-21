@@ -13,6 +13,9 @@ export default function ProductPage({ product }) {
       ? product.basePrice[selectedSize.toLowerCase()]
       : product.price;
   const displayedImage = product.images[selectedColor];
+  const formattedColorName = (colorMap[selectedColor] || '')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 
   if (!product) return <div className="p-4">Product not found</div>;
 
@@ -29,7 +32,9 @@ export default function ProductPage({ product }) {
             {product.colors.map((color) => (
               <button
                 key={color}
-                aria-label={colorMap[color] || color}
+                aria-label={(colorMap[color] || '')
+                  .replace(/-/g, ' ')
+                  .replace(/\b\w/g, (c) => c.toUpperCase())}
                 onClick={() => setSelectedColor(color)}
                 className={`w-6 h-6 rounded-full border-2 ${
                   selectedColor === color ? 'border-gray-700' : 'border-transparent'
@@ -39,35 +44,35 @@ export default function ProductPage({ product }) {
             ))}
           </div>
           <div className="text-sm text-gray-500 mt-1">
-            {colorMap[selectedColor]}
+            {formattedColorName}
           </div>
         </div>
 
         <div className="flex-1 md:w-1/2 flex flex-col">
           <h1 className="text-2xl font-semibold mb-2">{product.title}</h1>
           <p className="text-xl font-bold text-gray-800 mb-1">₹{price}</p>
-          <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-2">
-            <span className="flex items-center gap-1 px-2 py-1 border rounded-full">
+          <p className="text-gray-700 mb-4">{product.description}</p>
+          <div className="flex flex-col text-xs text-gray-600 space-y-1 mb-4">
+            <span className="flex items-center gap-1">
               🔒 <span>Secure transaction</span>
             </span>
-            <span className="flex items-center gap-1 px-2 py-1 border rounded-full">
+            <span className="flex items-center gap-1">
               💰 <span>Pay on Delivery</span>
             </span>
-            <span className="flex items-center gap-1 px-2 py-1 border rounded-full">
+            <span className="flex items-center gap-1">
               🔄 <span>7-day return</span>
             </span>
-            <span className="flex items-center gap-1 px-2 py-1 border rounded-full">
+            <span className="flex items-center gap-1">
               📦 <span>In-stock</span>
             </span>
           </div>
-          <p className="text-gray-700 mb-4">{product.description}</p>
 
-          <div className="flex flex-col sm:flex-row gap-2 mb-6">
+          <div className="flex flex-wrap gap-2 mb-6">
             {['Small', 'Medium', 'Large', 'Set'].map((size) => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
-                className={`px-4 py-2 rounded-full border text-sm transition hover:bg-gray-200 active:scale-95
+                className={`min-w-[72px] px-4 py-2 rounded-full border text-sm transition hover:bg-gray-200 active:scale-95
                   ${selectedSize === size ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-800'}`}
               >
                 {size}

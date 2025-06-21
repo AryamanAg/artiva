@@ -30,7 +30,7 @@ export default function ProductPage({ product }) {
             alt={product.title}
             className="w-full rounded-xl aspect-square object-contain"
           />
-          <div className="flex gap-2 mt-4">
+          <div className="flex gap-2 mt-4 justify-end">
             {product.colors.map((color) => (
               <button
                 key={color}
@@ -45,7 +45,7 @@ export default function ProductPage({ product }) {
               />
             ))}
           </div>
-          <div className="text-sm text-gray-500 mt-1">
+          <div className="text-sm text-gray-500 mt-1 text-right">
             {formattedColorName}
           </div>
         </div>

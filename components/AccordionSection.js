@@ -12,7 +12,7 @@ export default function AccordionSection({ title, isOpen, onToggle, children }) 
   }, [isOpen]);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border">
+    <div className="border-t border-gray-200">
       <button
         type="button"
         onClick={onToggle}

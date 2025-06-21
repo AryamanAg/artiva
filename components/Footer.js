@@ -59,9 +59,9 @@ export default function Footer() {
         <div className="flex-1 min-w-[180px] flex flex-col items-center text-left">
           <h3 className="font-semibold mb-2">Quick Links</h3>
           <ul className="space-y-1">
-            <li><a href="/category/vases">Vases</a></li>
-            <li><a href="/category/decor">Decor</a></li>
-            <li><a href="/category/souled-store">Souled Store</a></li>
+            <li><a href="/category/vasari">Vasari</a></li>
+            <li><a href="/category/noctra">Noctra</a></li>
+            <li><a href="/category/deskly">Deskly</a></li>
             <li><a href="/cart">Cart</a></li>
           </ul>
         </div>

@@ -34,7 +34,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-wrap justify-between gap-8">
         {/* Branding + Newsletter */}
         <div className="flex-1 min-w-[240px] flex flex-col items-center text-left">
-          <h2 className="text-xl font-bold mb-2">Artiva</h2>
+          <h2 className="text-xl font-bold mb-2">Artivo</h2>
           <p className="mb-4">Timeless decor, delivered with care.</p>
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
             <input
@@ -78,7 +78,7 @@ export default function Footer() {
       </div>
 
       <div className="text-center text-xs text-gray-500 mt-8">
-        &copy; {new Date().getFullYear()} Artiva. All rights reserved.
+        &copy; {new Date().getFullYear()} Artivo. All rights reserved.
       </div>
     </footer>
   );

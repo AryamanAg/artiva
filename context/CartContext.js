@@ -11,7 +11,20 @@ export function CartProvider({ children }) {
       const stored = localStorage.getItem('cart');
       if (stored) {
         try {
-          setCart(JSON.parse(stored));
+          const parsed = JSON.parse(stored);
+          const withQty = parsed.map((i) => ({ ...i, quantity: i.quantity ?? 1 }));
+          const deduped = [];
+          withQty.forEach((i) => {
+            const index = deduped.findIndex(
+              (p) => p.id === i.id && p.size === i.size && p.color === i.color
+            );
+            if (index !== -1) {
+              deduped[index].quantity += i.quantity;
+            } else {
+              deduped.push({ ...i });
+            }
+          });
+          setCart(deduped);
         } catch (err) {
           console.error('Failed to parse cart from localStorage', err);
         }
@@ -28,10 +41,24 @@ export function CartProvider({ children }) {
 
   // Add a product variant (id + size + color) to the cart
   const addToCart = (item) => {
-    setCart((prev) => [...prev, item]);
+    const quantity = item.quantity ?? 1;
+    setCart((prev) => {
+      const index = prev.findIndex(
+        (p) => p.id === item.id && p.size === item.size && p.color === item.color
+      );
+      if (index !== -1) {
+        const next = [...prev];
+        next[index] = {
+          ...next[index],
+          quantity: next[index].quantity + quantity,
+        };
+        return next;
+      }
+      return [...prev, { ...item, quantity }];
+    });
   };
 
-  // Remove the first occurrence of a specific variant from the cart
+  // Decrease quantity of a specific variant in the cart
   const removeFromCart = (item) => {
     setCart((prev) => {
       const index = prev.findIndex(
@@ -39,7 +66,14 @@ export function CartProvider({ children }) {
       );
       if (index === -1) return prev;
       const next = [...prev];
-      next.splice(index, 1);
+      if (next[index].quantity > 1) {
+        next[index] = {
+          ...next[index],
+          quantity: next[index].quantity - 1,
+        };
+      } else {
+        next.splice(index, 1);
+      }
       return next;
     });
   };

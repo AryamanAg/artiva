@@ -6,20 +6,9 @@ import Link from 'next/link';
 export default function CartPage() {
   const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
-  // Group cart items by product id + size + color
-  const grouped = cart.reduce((acc, item) => {
-    const key = `${item.id}-${item.size}-${item.color}`;
-    const existing = acc[key];
-    if (existing) {
-      existing.quantity += 1;
-    } else {
-      acc[key] = { ...item, quantity: 1 };
-    }
-    return acc;
-  }, {});
-  const items = Object.values(grouped);
+  const items = cart;
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <>

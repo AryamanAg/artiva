@@ -6,6 +6,7 @@ export default function ProductPage({ product }) {
   const { addToCart } = useContext(CartContext);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState('Medium');
+  const [quantity, setQuantity] = useState(1);
 
   const price =
     product.basePrice?.[selectedSize.toLowerCase()] !== undefined
@@ -40,7 +41,8 @@ export default function ProductPage({ product }) {
 
         <div className="flex-1 flex flex-col">
           <h1 className="text-2xl font-semibold mb-2">{product.title}</h1>
-          <p className="text-xl font-bold text-gray-800 mb-4">₹{price}</p>
+          <p className="text-xl font-bold text-gray-800 mb-1">₹{price}</p>
+          <p className="text-gray-700 mb-4">{product.description}</p>
 
           <div className="flex flex-col sm:flex-row gap-2 mb-6">
             {['Small', 'Medium', 'Large', 'Set'].map((size) => (
@@ -54,21 +56,45 @@ export default function ProductPage({ product }) {
               </button>
             ))}
           </div>
-          <button
-            onClick={() =>
-              addToCart({
-                id: product.id,
-                title: product.title,
-                size: selectedSize,
-                color: selectedColor,
-                price,
-                image: displayedImage,
-              })
-            }
-            className="w-full md:w-auto px-6 py-3 rounded-full bg-gray-100 text-gray-900 hover:bg-gray-300 transition"
-          >
-            Add to Cart
-          </button>
+          <div className="flex items-center gap-4 mt-auto">
+            <div className="flex items-center border rounded-full overflow-hidden">
+              <button
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="w-8 h-8 flex items-center justify-center bg-gray-100"
+              >
+                −
+              </button>
+              <input
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                className="w-12 text-center outline-none"
+                min={1}
+              />
+              <button
+                onClick={() => setQuantity((q) => q + 1)}
+                className="w-8 h-8 flex items-center justify-center bg-gray-100"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onClick={() =>
+                addToCart({
+                  id: product.id,
+                  title: product.title,
+                  size: selectedSize,
+                  color: selectedColor,
+                  price,
+                  image: displayedImage,
+                  quantity,
+                })
+              }
+              className="flex-1 px-6 py-3 rounded-full bg-gray-100 text-gray-900 hover:bg-gray-300 transition"
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
     </div>

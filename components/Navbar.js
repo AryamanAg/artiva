@@ -5,6 +5,7 @@ import { CartContext } from '@/context/CartContext';
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { cart } = useContext(CartContext);
+  const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <>
@@ -33,7 +34,7 @@ export default function Navbar() {
 
         {/* RIGHT: Cart icon */}
         <Link href="/cart" className="text-sm md:text-base">
-          🛒 <span className="font-bold">{cart.length}</span>
+          🛒 <span className="font-bold">{itemCount}</span>
         </Link>
       </nav>
 
@@ -43,7 +44,7 @@ export default function Navbar() {
           <Link href="/category/vasari" onClick={() => setMenuOpen(false)}>Vasari</Link>
           <Link href="/category/noctra" onClick={() => setMenuOpen(false)}>Noctra</Link>
           <Link href="/category/deskly" onClick={() => setMenuOpen(false)}>Deskly</Link>
-          <Link href="/cart" onClick={() => setMenuOpen(false)}>🛒 {cart.length}</Link>
+          <Link href="/cart" onClick={() => setMenuOpen(false)}>🛒 {itemCount}</Link>
           <button
             onClick={() => setMenuOpen(false)}
             className="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-700 rounded hover:bg-gray-300 transition"

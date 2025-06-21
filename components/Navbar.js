@@ -26,9 +26,9 @@ export default function Navbar() {
 
         {/* CENTER: Nav links (desktop only) */}
         <div className="hidden md:flex gap-8 text-sm font-medium text-gray-700">
-          <Link href="/category/vases">Vases</Link>
-          <Link href="/category/decor">Decor</Link>
-          <Link href="/category/souled-store">Souled Store</Link>
+          <Link href="/category/vasari">Vasari</Link>
+          <Link href="/category/noctra">Noctra</Link>
+          <Link href="/category/deskly">Deskly</Link>
         </div>
 
         {/* RIGHT: Cart icon */}
@@ -40,9 +40,9 @@ export default function Navbar() {
       {/* MOBILE MENU OVERLAY */}
       {menuOpen && (
         <div className="fixed inset-0 bg-white flex flex-col items-center justify-center gap-6 text-lg font-medium text-gray-800 z-40">
-          <Link href="/category/vases" onClick={() => setMenuOpen(false)}>Vases</Link>
-          <Link href="/category/decor" onClick={() => setMenuOpen(false)}>Decor</Link>
-          <Link href="/category/furniture" onClick={() => setMenuOpen(false)}>Souled Store</Link>
+          <Link href="/category/vasari" onClick={() => setMenuOpen(false)}>Vasari</Link>
+          <Link href="/category/noctra" onClick={() => setMenuOpen(false)}>Noctra</Link>
+          <Link href="/category/deskly" onClick={() => setMenuOpen(false)}>Deskly</Link>
           <Link href="/cart" onClick={() => setMenuOpen(false)}>🛒 {cart.length}</Link>
           <button
             onClick={() => setMenuOpen(false)}

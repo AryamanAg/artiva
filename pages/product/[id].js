@@ -16,6 +16,14 @@ export default function ProductPage({ product }) {
       ? product.basePrice[selectedSize.toLowerCase()]
       : product.price;
   const displayedImage = product.images[selectedColor];
+  const dimension =
+    typeof product.dimension === 'object'
+      ? product.dimension[selectedSize.toLowerCase()] || ''
+      : product.dimension;
+  const weight =
+    typeof product.weight === 'object'
+      ? product.weight[selectedSize.toLowerCase()] || ''
+      : product.weight;
   const formattedColorName = (colorMap[selectedColor] || '')
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (c) => c.toUpperCase());
@@ -61,11 +69,11 @@ export default function ProductPage({ product }) {
             <div className="space-y-1">
               <div className="flex justify-between">
                 <span className="text-gray-600">Dimension</span>
-                <span>{product.dimension}</span>
+                <span>{dimension}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Weight</span>
-                <span>{product.weight}</span>
+                <span>{weight}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Country of Origin</span>

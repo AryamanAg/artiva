@@ -1,12 +1,14 @@
 import { useState, useContext } from 'react';
 import { products, colorMap } from '@/lib/products';
 import { CartContext } from '@/context/CartContext';
+import AccordionSection from '@/components/AccordionSection';
 
 export default function ProductPage({ product }) {
   const { addToCart } = useContext(CartContext);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState('Medium');
   const [quantity, setQuantity] = useState(1);
+  const [openSection, setOpenSection] = useState(null);
 
   const price =
     product.basePrice?.[selectedSize.toLowerCase()] !== undefined
@@ -119,6 +121,69 @@ export default function ProductPage({ product }) {
             </button>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8 space-y-4">
+        <AccordionSection
+          title="Design Description"
+          isOpen={openSection === 0}
+          onToggle={() => setOpenSection(openSection === 0 ? null : 0)}
+        >
+          <p>
+            Elevate your home décor with Vasari by Artivo, crafted using precise
+            3D printing technology. Featuring clean lines and a modern geometric
+            silhouette, this vase is the perfect statement piece for
+            contemporary interiors. The layered texture inherent in 3D printing
+            adds a unique, tactile character, showcasing the craftsmanship behind
+            every line & curve. Available in a variety of muted and vibrant
+            colors, each vase is a blend of art, function, and technology.
+            Flowers are not included with the vase as of now.
+          </p>
+        </AccordionSection>
+
+        <AccordionSection
+          title="Sustainability"
+          isOpen={openSection === 1}
+          onToggle={() => setOpenSection(openSection === 1 ? null : 1)}
+        >
+          <p>
+            This vase is made from PLA (Polylactic Acid)—a biodegradable,
+            plant-based material derived from renewable resources such as corn
+            starch and sugarcane. Unlike petroleum-based plastics, PLA offers a
+            lower carbon footprint and is industrially compostable under
+            specific conditions. Our 3D printing process is waste-efficient,
+            only using the material necessary for the final product, and our
+            packaging is fully recyclable. With this vase, you're choosing a
+            greener, more responsible way to decorate.
+          </p>
+        </AccordionSection>
+
+        <AccordionSection
+          title="Instructions for Use"
+          isOpen={openSection === 2}
+          onToggle={() => setOpenSection(openSection === 2 ? null : 2)}
+        >
+          <ul className="list-disc pl-5 space-y-1">
+            <li>
+              <strong>For Decorative Use:</strong> Ideal for dried flowers,
+              artificial arrangements, or as a standalone sculpture.
+            </li>
+            <li>
+              <strong>Not Watertight:</strong> PLA is porous and not suitable for
+              holding water unless sealed. If using for live flowers, insert a
+              watertight container inside the vase.
+            </li>
+            <li>
+              <strong>Care Instructions:</strong> Clean with a dry or slightly
+              damp cloth. Avoid prolonged exposure to direct sunlight or high
+              heat, as PLA may warp at temperatures above 60°C (140°F).
+            </li>
+            <li>
+              <strong>Indoor Use Recommended:</strong> Best suited for indoor
+              settings to preserve its shape and appearance.
+            </li>
+          </ul>
+        </AccordionSection>
       </div>
     </div>
   );

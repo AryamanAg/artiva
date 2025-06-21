@@ -64,7 +64,7 @@ export default function ProductPage({ product }) {
           <p className="text-xl font-bold text-gray-800 mb-1">₹{price}</p>
           <p className="text-gray-700 mb-4">{product.description}</p>
 
-          <div className="mb-4 text-sm space-y-1">
+          <div className="mb-6 text-sm space-y-1">
             <h2 className="font-semibold">About this Item</h2>
             <div className="space-y-1">
               <div className="flex justify-between">
@@ -82,7 +82,7 @@ export default function ProductPage({ product }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2 mb-4">
+          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2 mb-6">
             <div className="flex flex-col items-center">
               <span>🔒</span>
               <span>Secure transaction</span>
@@ -97,7 +97,7 @@ export default function ProductPage({ product }) {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-6">
+          <div className="flex flex-wrap gap-2 mb-4">
             {['Small', 'Medium', 'Large', 'Set'].map((size) => (
               <button
                 key={size}
@@ -113,7 +113,7 @@ export default function ProductPage({ product }) {
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-4 mt-auto">
+          <div className="flex items-center gap-4">
             <div className="flex items-center border rounded-full overflow-hidden">
               <button
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}

@@ -7,8 +7,8 @@ export default function ProductCard({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const defaultSize = 'Medium';
   const price =
-    product.sizes?.[defaultSize]?.price !== undefined
-      ? product.sizes[defaultSize].price
+    product.basePrice?.[defaultSize.toLowerCase()] !== undefined
+      ? product.basePrice[defaultSize.toLowerCase()]
       : product.price;
   const quantity = cart.filter(
     (c) =>

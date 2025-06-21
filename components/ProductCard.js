@@ -5,7 +5,17 @@ import { CartContext } from '@/context/CartContext';
 export default function ProductCard({ product }) {
   const { cart, addToCart } = useContext(CartContext);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const quantity = cart.filter((c) => c.id === product.id).length;
+  const defaultSize = 'Medium';
+  const price =
+    product.sizes?.[defaultSize]?.price !== undefined
+      ? product.sizes[defaultSize].price
+      : product.price;
+  const quantity = cart.filter(
+    (c) =>
+      c.id === product.id &&
+      c.size === defaultSize &&
+      c.color === selectedColor
+  ).length;
 
   return (
     <div className="rounded-xl overflow-hidden shadow-md bg-white transition-transform transform hover:-translate-y-1 hover:shadow-lg">
@@ -24,7 +34,7 @@ export default function ProductCard({ product }) {
         </Link>
 
         <div className="flex items-center justify-between mb-3">
-          <p className="text-lg font-bold text-gray-800">₹{product.price}</p>
+          <p className="text-lg font-bold text-gray-800">₹{price}</p>
 
 <div className="flex gap-2 mt-3">
   {product.colors.map((color) => (
@@ -41,7 +51,16 @@ export default function ProductCard({ product }) {
 
 <div className="mt-auto flex items-center justify-between gap-2">
   <button
-    onClick={() => addToCart({ ...product, selectedColor, image: product.images[selectedColor] })}
+    onClick={() =>
+      addToCart({
+        id: product.id,
+        title: product.title,
+        size: defaultSize,
+        color: selectedColor,
+        price,
+        image: product.images[selectedColor],
+      })
+    }
     className="py-2 px-4 text-sm font-medium bg-gray-100 text-gray-900 rounded-full hover:bg-gray-300 transition"
   >
     + Add to Cart

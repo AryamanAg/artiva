@@ -26,14 +26,17 @@ export function CartProvider({ children }) {
     }
   }, [cart]);
 
-  const addToCart = (product) => {
-    setCart((prev) => [...prev, product]);
+  // Add a product variant (id + size + color) to the cart
+  const addToCart = (item) => {
+    setCart((prev) => [...prev, item]);
   };
 
-  // Remove the first occurrence of a product with the given id
-  const removeFromCart = (productId) => {
+  // Remove the first occurrence of a specific variant from the cart
+  const removeFromCart = (item) => {
     setCart((prev) => {
-      const index = prev.findIndex((item) => item.id === productId);
+      const index = prev.findIndex(
+        (p) => p.id === item.id && p.size === item.size && p.color === item.color
+      );
       if (index === -1) return prev;
       const next = [...prev];
       next.splice(index, 1);

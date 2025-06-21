@@ -6,13 +6,14 @@ import Link from 'next/link';
 export default function CartPage() {
   const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
-  // Group cart items by product id
+  // Group cart items by product id + size + color
   const grouped = cart.reduce((acc, item) => {
-    const existing = acc[item.id];
+    const key = `${item.id}-${item.size}-${item.color}`;
+    const existing = acc[key];
     if (existing) {
       existing.quantity += 1;
     } else {
-      acc[item.id] = { ...item, quantity: 1 };
+      acc[key] = { ...item, quantity: 1 };
     }
     return acc;
   }, {});
@@ -35,7 +36,7 @@ export default function CartPage() {
             <div className="space-y-4">
               {items.map((item) => (
                 <div
-                  key={item.id}
+                  key={`${item.id}-${item.size}-${item.color}`}
                   className="flex items-center gap-4 bg-white border rounded-lg p-4 shadow-sm"
                 >
                   <img
@@ -45,13 +46,26 @@ export default function CartPage() {
                   />
                   <div className="flex-1">
                     <h2 className="font-medium text-gray-800">{item.title}</h2>
+                    <p className="text-xs text-gray-500">
+                      Size: {item.size}
+                    </p>
+                    <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+                      <span>Color:</span>
+                      <span
+                        className="w-3 h-3 rounded-full border"
+                        style={{ backgroundColor: item.color }}
+                      />
+                      {!item.color.startsWith('#') && (
+                        <span className="ml-1">{item.color}</span>
+                      )}
+                    </div>
                     <p className="text-sm text-gray-500 mt-1">
                       ₹{item.price * item.quantity}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item)}
                       className="w-7 h-7 rounded-full bg-gray-100 text-gray-900"
                     >
                       −

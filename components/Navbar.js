@@ -20,7 +20,7 @@ export default function Navbar() {
           {/* Logo + Brand */}
           <Link href="/" className="flex items-center gap-2">
             <img src="/artiva-logo.webp" alt="logo" className="w-6 h-6" />
-            <h1 className="text-xl font-bold tracking-tight">Artiva</h1>
+              <h1 className="text-xl font-bold tracking-tight">Artivo</h1>
           </Link>
         </div>
 

@@ -58,9 +58,10 @@ export default function ProductPage({ product }) {
           <button
             onClick={() =>
               addToCart({
-                ...product,
-                selectedColor,
-                selectedSize,
+                id: product.id,
+                title: product.title,
+                size: selectedSize,
+                color: selectedColor,
                 price,
                 image: displayedImage,
               })

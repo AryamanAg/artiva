@@ -16,6 +16,14 @@ export default function ProductPage({ product }) {
       ? product.basePrice[selectedSize.toLowerCase()]
       : product.price;
   const displayedImage = product.images[selectedColor];
+  const dimension =
+    typeof product.dimension === 'object'
+      ? product.dimension[selectedSize.toLowerCase()] || ''
+      : product.dimension;
+  const weight =
+    typeof product.weight === 'object'
+      ? product.weight[selectedSize.toLowerCase()] || ''
+      : product.weight;
   const formattedColorName = (colorMap[selectedColor] || '')
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (c) => c.toUpperCase());
@@ -55,34 +63,57 @@ export default function ProductPage({ product }) {
           <h1 className="text-2xl font-semibold mb-2">{product.title}</h1>
           <p className="text-xl font-bold text-gray-800 mb-1">₹{price}</p>
           <p className="text-gray-700 mb-4">{product.description}</p>
-          <div className="flex flex-col text-xs text-gray-600 space-y-1 mb-4">
-            <span className="flex items-center gap-1">
-              🔒 <span>Secure transaction</span>
-            </span>
-            <span className="flex items-center gap-1">
-              💰 <span>Pay on Delivery</span>
-            </span>
-            <span className="flex items-center gap-1">
-              🔄 <span>7-day return</span>
-            </span>
-            <span className="flex items-center gap-1">
-              📦 <span>In-stock</span>
-            </span>
+
+          <div className="mb-6 text-sm space-y-1">
+            <h2 className="font-semibold">About this Item</h2>
+            <div className="space-y-1">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Dimension</span>
+                <span>{dimension}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Weight</span>
+                <span>{weight}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Country of Origin</span>
+                <span>{product.origin}</span>
+              </div>
+            </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-6">
+          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2 mb-6">
+            <div className="flex flex-col items-center">
+              <span>🔒</span>
+              <span>Secure transaction</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span>💰</span>
+              <span>Pay on Delivery</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span>🔄</span>
+              <span>7-day return</span>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mb-4">
             {['Small', 'Medium', 'Large', 'Set'].map((size) => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
-                className={`min-w-[72px] px-4 py-2 rounded-full border text-sm transition hover:bg-gray-200 active:scale-95
-                  ${selectedSize === size ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-800'}`}
+                className={`min-w-[72px] px-4 py-2 rounded-full border text-sm transition active:scale-95
+                  ${
+                    selectedSize === size
+                      ? 'bg-gray-800 text-white cursor-default'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
               >
                 {size}
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-4 mt-auto">
+          <div className="flex items-center gap-4">
             <div className="flex items-center border rounded-full overflow-hidden">
               <button
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}

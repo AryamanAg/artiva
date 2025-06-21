@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { products, colorMap } from '@/lib/products';
 import { CartContext } from '@/context/CartContext';
 import AccordionSection from '@/components/AccordionSection';
+import PincodeChecker from '@/components/PincodeChecker';
 
 export default function ProductPage({ product }) {
   const { addToCart } = useContext(CartContext);
@@ -120,6 +121,7 @@ export default function ProductPage({ product }) {
               Add to Cart
             </button>
           </div>
+          <PincodeChecker />
         </div>
       </div>
 

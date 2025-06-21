@@ -1,4 +1,4 @@
-import { db } from '@/lib/firebase';
+import { db } from '@/lib/firebaseAdmin';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
   const sanitized = email.toLowerCase().trim();
   try {
-    const ref = db.collection('newsletter_subscribers').doc(sanitized);
+    const ref = db.collection('Marketing_Newsletter_Subscribers').doc(sanitized);
     const doc = await ref.get();
     if (doc.exists) {
       return res.status(200).json({ message: 'Already subscribed' });

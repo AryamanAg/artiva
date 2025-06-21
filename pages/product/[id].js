@@ -5,6 +5,14 @@ import { CartContext } from '@/context/CartContext';
 export default function ProductPage({ product }) {
   const { addToCart } = useContext(CartContext);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedSize, setSelectedSize] = useState('Medium');
+
+  const price =
+    product.sizes?.[selectedSize]?.price !== undefined
+      ? product.sizes[selectedSize].price
+      : product.price;
+  const displayedImage =
+    product.sizes?.[selectedSize]?.image || product.images[selectedColor];
 
   if (!product) return <div className="p-4">Product not found</div>;
 
@@ -13,7 +21,7 @@ export default function ProductPage({ product }) {
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-1">
           <img
-            src={product.images[selectedColor]}
+            src={displayedImage}
             alt={product.title}
             className="w-full rounded-xl object-cover aspect-square"
           />
@@ -33,10 +41,29 @@ export default function ProductPage({ product }) {
 
         <div className="flex-1 flex flex-col">
           <h1 className="text-2xl font-semibold mb-2">{product.title}</h1>
-          <p className="text-xl font-bold text-gray-800 mb-6">₹{product.price}</p>
+          <p className="text-xl font-bold text-gray-800 mb-4">₹{price}</p>
+
+          <div className="flex flex-col sm:flex-row gap-2 mb-6">
+            {['Small', 'Medium', 'Large'].map((size) => (
+              <button
+                key={size}
+                onClick={() => setSelectedSize(size)}
+                className={`px-4 py-2 rounded-full border text-sm transition
+                  ${selectedSize === size ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-800'}`}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
           <button
             onClick={() =>
-              addToCart({ ...product, selectedColor, image: product.images[selectedColor] })
+              addToCart({
+                ...product,
+                selectedColor,
+                selectedSize,
+                price,
+                image: displayedImage,
+              })
             }
             className="w-full md:w-auto px-6 py-3 rounded-full bg-gray-100 text-gray-900 hover:bg-gray-300 transition"
           >

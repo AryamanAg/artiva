@@ -59,7 +59,7 @@ export default function ProductPage({ product }) {
           </div>
         </div>
 
-        <div className="md:col-span-5 flex flex-col">
+        <div className="md:col-span-4 flex flex-col">
           <h1 className="text-2xl font-semibold mb-2">{product.title}</h1>
           <p className="text-xl font-bold text-gray-800 mb-1">₹{price}</p>
           <p className="text-gray-700 mb-4">{product.description}</p>
@@ -140,7 +140,7 @@ export default function ProductPage({ product }) {
           </div>
 
         </div>
-        <CartSummary className="md:col-span-2" />
+        <CartSummary className="md:col-span-3" />
       </div>
 
       <div className="mt-8 space-y-4">

@@ -19,17 +19,17 @@ export default function PincodeChecker({ className = '' }) {
 
   return (
     <div className={`mt-4 ${className}`}>
-      <form onSubmit={handleSubmit} className="flex gap-2">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <input
           type="text"
           value={inputPin}
           onChange={(e) => setInputPin(e.target.value)}
           placeholder="Enter pincode"
-          className="border rounded px-3 py-2 text-sm flex-1"
+          className="border rounded px-3 py-2 text-sm w-full"
         />
         <button
           type="submit"
-          className="px-3 py-2 text-sm bg-gray-800 text-white rounded"
+          className="px-3 py-2 text-sm bg-gray-800 text-white rounded w-full"
         >
           Check Delivery
         </button>

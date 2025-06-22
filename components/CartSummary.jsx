@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
 import PincodeChecker from './PincodeChecker';
 
-export default function CartSummary() {
+export default function CartSummary({ className = '' }) {
   const { cart } = useContext(CartContext);
   const maxShow = 3;
   const itemsToShow = cart.slice(0, maxShow);
@@ -12,7 +12,7 @@ export default function CartSummary() {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <aside className="hidden md:block w-64 sticky top-24 self-start">
+    <aside className={`hidden md:block sticky top-24 self-start ${className}`}>
       <div className="border rounded-lg p-4 space-y-4 bg-white">
         <PincodeChecker className="mt-0" />
         <div className="space-y-2 text-sm">

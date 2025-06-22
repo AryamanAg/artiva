@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { LocationContext } from '@/context/LocationContext';
 
-export default function PincodeChecker() {
+export default function PincodeChecker({ className = '' }) {
   const { pincode, setPincode } = useContext(LocationContext);
   const [inputPin, setInputPin] = useState('');
   const [message, setMessage] = useState('');
@@ -18,7 +18,7 @@ export default function PincodeChecker() {
   };
 
   return (
-    <div className="mt-4">
+    <div className={`mt-4 ${className}`}>
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="text"

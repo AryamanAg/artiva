@@ -32,8 +32,9 @@ export default function ProductPage({ product }) {
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8">
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="flex-1 md:w-1/2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Column 1 */}
+        <div className="space-y-4 p-4">
           <img
             src={displayedImage}
             alt={product.title}
@@ -54,60 +55,20 @@ export default function ProductPage({ product }) {
               />
             ))}
           </div>
-          <div className="text-sm text-gray-500 mt-1 text-right">
+          <div className="text-sm text-gray-500 text-right">
             {formattedColorName}
           </div>
-        </div>
-
-        <div className="flex-1 md:w-1/2 flex flex-col">
-          <h1 className="text-2xl font-semibold mb-2">{product.title}</h1>
-          <p className="text-xl font-bold text-gray-800 mb-1">₹{price}</p>
-          <p className="text-gray-700 mb-4">{product.description}</p>
-
-          <div className="mb-6 text-sm space-y-1">
-            <h2 className="font-semibold">About this Item</h2>
-            <div className="space-y-1">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Dimension</span>
-                <span>{dimension}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Weight</span>
-                <span>{weight}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Country of Origin</span>
-                <span>{product.origin}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2 mb-6">
-            <div className="flex flex-col items-center">
-              <span>🔒</span>
-              <span>Secure transaction</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span>💰</span>
-              <span>Pay on Delivery</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span>🔄</span>
-              <span>7-day return</span>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mb-4">
+          <p className="text-xl font-bold text-gray-800">₹{price}</p>
+          <div className="flex flex-wrap gap-2">
             {['Small', 'Medium', 'Large', 'Set'].map((size) => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
-                className={`min-w-[72px] px-4 py-2 rounded-full border text-sm transition active:scale-95
-                  ${
-                    selectedSize === size
-                      ? 'bg-gray-800 text-white cursor-default'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
+                className={`min-w-[72px] px-4 py-2 rounded-full border text-sm transition active:scale-95 ${
+                  selectedSize === size
+                    ? 'bg-gray-800 text-white cursor-default'
+                    : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                }`}
               >
                 {size}
               </button>
@@ -124,7 +85,9 @@ export default function ProductPage({ product }) {
               <input
                 type="number"
                 value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                onChange={(e) =>
+                  setQuantity(Math.max(1, parseInt(e.target.value) || 1))
+                }
                 className="w-12 text-center outline-none"
                 min={1}
               />
@@ -147,16 +110,59 @@ export default function ProductPage({ product }) {
                   quantity,
                 })
               }
-              className="flex-1 px-6 py-3 rounded-full bg-gray-100 text-gray-900 hover:bg-gray-300 active:scale-95 transition"
+              className="flex-1 px-6 py-3 rounded-full bg-[#ffce12] text-black font-bold hover:bg-[#e6bd0b] active:scale-95 transition"
             >
               Add to Cart
             </button>
+          </div>
+        </div>
+        {/* Column 2 */}
+        <div className="space-y-4 p-4">
+          <h1 className="text-2xl font-semibold">{product.title}</h1>
+          <p className="text-gray-700">{product.description}</p>
+        </div>
+
+        {/* Column 3 */}
+        <div className="space-y-4 p-4 flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center text-xs text-gray-600 space-y-2">
+            <div className="flex flex-col items-center">
+              <span>🔒</span>
+              <span>Secure transaction</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span>💰</span>
+              <span>Pay on Delivery</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span>🔄</span>
+              <span>7-day return</span>
+            </div>
           </div>
           <PincodeChecker />
         </div>
       </div>
 
-      <div className="mt-8 space-y-4">
+      {/* Mobile sticky CTA */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t">
+        <button
+          onClick={() =>
+            addToCart({
+              id: product.id,
+              title: product.title,
+              size: selectedSize,
+              color: selectedColor,
+              price,
+              image: displayedImage,
+              quantity,
+            })
+          }
+          className="w-full px-6 py-3 rounded-full bg-[#ffce12] text-black font-bold hover:bg-[#e6bd0b] active:scale-95 transition"
+        >
+          Add to Cart
+        </button>
+      </div>
+
+      <div className="mt-8 space-y-4 max-w-3xl mx-auto">
         <AccordionSection
           title="Design Description"
           isOpen={openSection === 0}

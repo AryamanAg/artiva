@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { CartContext } from '@/context/CartContext';
 import { LocationContext } from '@/context/LocationContext';
 
@@ -8,6 +8,11 @@ export default function Navbar() {
   const { cart } = useContext(CartContext);
   const { pincode, address, setAddress, setPincode } = useContext(LocationContext);
   const [addressOpen, setAddressOpen] = useState(false);
+  const [pinInput, setPinInput] = useState(address?.pincode || pincode || '');
+  const [pinMsg, setPinMsg] = useState('');
+  useEffect(() => {
+    setPinInput(address?.pincode || pincode || '');
+  }, [address, pincode]);
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
@@ -77,6 +82,7 @@ export default function Navbar() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+                if (pinInput !== '560001') return;
                 const form = e.target;
                 const addr = {
                   name: form.name.value,
@@ -84,10 +90,10 @@ export default function Navbar() {
                   city: form.city.value,
                   state: form.state.value,
                   phone: form.phone.value,
-                  pincode: form.pincode.value,
+                  pincode: pinInput,
                 };
                 setAddress(addr);
-                setPincode(form.pincode.value);
+                setPincode(pinInput);
                 setAddressOpen(false);
               }}
               className="space-y-2"
@@ -97,8 +103,29 @@ export default function Navbar() {
               <input name="city" defaultValue={address?.city || ''} placeholder="City" className="w-full border px-3 py-2 rounded" />
               <input name="state" defaultValue={address?.state || ''} placeholder="State" className="w-full border px-3 py-2 rounded" />
               <input name="phone" defaultValue={address?.phone || ''} placeholder="Phone" className="w-full border px-3 py-2 rounded" />
-              <input name="pincode" defaultValue={address?.pincode || pincode || ''} placeholder="Pincode" className="w-full border px-3 py-2 rounded" />
-              <button type="submit" className="w-full bg-gray-800 text-white rounded py-2">Save</button>
+              <input
+                name="pincode"
+                value={pinInput}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setPinInput(val);
+                  if (val === '560001') {
+                    setPinMsg(`${val} is serviceable`);
+                  } else {
+                    setPinMsg('');
+                  }
+                }}
+                placeholder="Pincode"
+                className="w-full border px-3 py-2 rounded"
+              />
+              {pinMsg && <p className="text-sm text-green-600">{pinMsg}</p>}
+              <button
+                type="submit"
+                disabled={pinInput !== '560001'}
+                className="w-full bg-gray-800 text-white rounded py-2 disabled:opacity-50"
+              >
+                Save
+              </button>
             </form>
           </div>
         </div>

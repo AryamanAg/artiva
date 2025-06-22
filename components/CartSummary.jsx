@@ -42,15 +42,15 @@ export default function CartSummary({ className = '' }) {
           )}
         </div>
         <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center py-2">
             <span>🔒</span>
             <span>Secure transaction</span>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center py-2">
             <span>💰</span>
             <span>Pay on Delivery</span>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center py-2">
             <span>🔄</span>
             <span>7-day return</span>
           </div>

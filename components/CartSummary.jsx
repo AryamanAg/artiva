@@ -1,10 +1,11 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
 import PincodeChecker from './PincodeChecker';
 
 export default function CartSummary({ className = '' }) {
   const { cart } = useContext(CartContext);
+  const [collapsed, setCollapsed] = useState(false);
   const maxShow = 3;
   const itemsToShow = cart.slice(0, maxShow);
   const remaining = cart.length - maxShow;
@@ -12,10 +13,22 @@ export default function CartSummary({ className = '' }) {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <aside className={`hidden md:block sticky top-24 self-start ${className}`}>
-      <div className="border rounded-lg p-4 space-y-4 bg-white">
-        <PincodeChecker className="mt-0" />
-        <div className="space-y-2 text-sm">
+    <div className={`hidden md:block fixed right-0 top-24 z-20 ${className}`}>
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        aria-label={collapsed ? 'Expand cart summary' : 'Collapse cart summary'}
+        className="absolute -left-8 top-4 bg-gray-800 text-white rounded-l px-2 py-1"
+      >
+        {collapsed ? '<' : '>'}
+      </button>
+      <aside
+        className={`transition-transform duration-300 ${
+          collapsed ? 'translate-x-full' : ''
+        }`}
+      >
+        <div className="border rounded-lg p-4 space-y-4 bg-white w-72">
+          <PincodeChecker className="mt-0" />
+          <div className="space-y-2 text-sm">
           {itemsToShow.map((item) => (
             <div
               key={`${item.id}-${item.size}-${item.color}`}
@@ -61,6 +74,7 @@ export default function CartSummary({ className = '' }) {
           </button>
         </Link>
       </div>
-    </aside>
+      </aside>
+    </div>
   );
 }

@@ -1,80 +1,81 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
 import PincodeChecker from './PincodeChecker';
 
-export default function CartSummary({ className = '' }) {
+export default function CartSummary({
+  className = '',
+  collapsed = false,
+  onToggle = () => {},
+}) {
   const { cart } = useContext(CartContext);
-  const [collapsed, setCollapsed] = useState(false);
   const maxShow = 3;
   const itemsToShow = cart.slice(0, maxShow);
   const remaining = cart.length - maxShow;
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
   return (
-    <div className={`hidden md:block fixed right-0 top-24 z-20 ${className}`}>
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        aria-label={collapsed ? 'Expand cart summary' : 'Collapse cart summary'}
-        className="absolute -left-8 top-4 bg-gray-800 text-white rounded-l px-2 py-1"
-      >
-        {collapsed ? '<' : '>'}
-      </button>
+    <div
+      className={`hidden md:flex fixed right-0 top-24 z-20 items-start ${className}`}
+    >
       <aside
         className={`transition-transform duration-300 ${
           collapsed ? 'translate-x-full' : ''
         }`}
       >
-        <div className="border rounded-lg p-4 space-y-4 bg-white w-72">
+        <div className="border rounded-l-lg p-4 space-y-4 bg-white w-72">
           <PincodeChecker className="mt-0" />
           <div className="space-y-2 text-sm">
-          {itemsToShow.map((item) => (
-            <div
-              key={`${item.id}-${item.size}-${item.color}`}
-              className="flex items-center gap-2"
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-10 h-10 object-cover rounded"
-              />
-              <div className="flex-1">
-                <p className="font-medium leading-snug line-clamp-2">
-                  {item.title}
-                </p>
-                <p className="text-xs text-gray-500">
-                  Qty: {item.quantity}
-                </p>
+            {itemsToShow.map((item) => (
+              <div
+                key={`${item.id}-${item.size}-${item.color}`}
+                className="flex items-center gap-2"
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-10 h-10 object-cover rounded"
+                />
+                <div className="flex-1">
+                  <p className="font-medium leading-snug line-clamp-2">
+                    {item.title}
+                  </p>
+                  <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
+                </div>
+                <p className="text-sm">₹{item.price * item.quantity}</p>
               </div>
-              <p className="text-sm">₹{item.price * item.quantity}</p>
+            ))}
+            {remaining > 0 && (
+              <p className="text-xs text-gray-500">...and {remaining} more item(s)</p>
+            )}
+          </div>
+          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2">
+            <div className="flex flex-col items-center py-3">
+              <span>🔒</span>
+              <span>Secure transaction</span>
             </div>
-          ))}
-          {remaining > 0 && (
-            <p className="text-xs text-gray-500">...and {remaining} more item(s)</p>
-          )}
+            <div className="flex flex-col items-center py-3">
+              <span>💰</span>
+              <span>Pay on Delivery</span>
+            </div>
+            <div className="flex flex-col items-center py-3">
+              <span>🔄</span>
+              <span>7-day return</span>
+            </div>
+          </div>
+          <Link href="/cart">
+            <button className="w-full mt-1 px-4 py-2 bg-gray-800 text-white rounded">
+              Checkout
+            </button>
+          </Link>
         </div>
-        <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2">
-          <div className="flex flex-col items-center py-2">
-            <span>🔒</span>
-            <span>Secure transaction</span>
-          </div>
-          <div className="flex flex-col items-center py-2">
-            <span>💰</span>
-            <span>Pay on Delivery</span>
-          </div>
-          <div className="flex flex-col items-center py-2">
-            <span>🔄</span>
-            <span>7-day return</span>
-          </div>
-        </div>
-        <Link href="/cart">
-          <button className="w-full mt-1 px-4 py-2 bg-gray-800 text-white rounded">
-            Checkout
-          </button>
-        </Link>
-      </div>
       </aside>
+      <button
+        onClick={() => onToggle()}
+        aria-label={collapsed ? 'View cart' : 'Hide cart'}
+        className="px-3 py-2 bg-gray-800 text-white rounded-r-lg ml-1"
+      >
+        {collapsed ? 'View Cart' : 'Hide Cart'}
+      </button>
     </div>
   );
 }

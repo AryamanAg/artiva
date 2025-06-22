@@ -10,6 +10,7 @@ export default function ProductPage({ product }) {
   const [selectedSize, setSelectedSize] = useState('Medium');
   const [quantity, setQuantity] = useState(1);
   const [openSection, setOpenSection] = useState(null);
+  const [cartCollapsed, setCartCollapsed] = useState(true);
 
   const price =
     product.basePrice?.[selectedSize.toLowerCase()] !== undefined
@@ -31,7 +32,12 @@ export default function ProductPage({ product }) {
   if (!product) return <div className="p-4">Product not found</div>;
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-8 md:grid md:grid-cols-3 gap-8">
+    <div className="relative">
+      <div
+        className={`max-w-6xl mx-auto p-4 md:p-8 md:grid gap-8 ${
+          cartCollapsed ? 'md:grid-cols-2' : 'md:grid-cols-3'
+        }`}
+      >
       <div className="md:col-span-2 space-y-8">
         <div className="grid md:grid-cols-2 gap-8">
           <div>
@@ -205,9 +211,11 @@ export default function ProductPage({ product }) {
           </ul>
         </AccordionSection>
       </div>
+      <CartSummary
+        collapsed={cartCollapsed}
+        onToggle={() => setCartCollapsed(!cartCollapsed)}
+      />
     </div>
-    <CartSummary />
-  </div>
   );
 }
 

@@ -211,11 +211,13 @@ export default function ProductPage({ product }) {
           </ul>
         </AccordionSection>
       </div>
-      <CartSummary
+    </div>
+    <CartSummary
         collapsed={cartCollapsed}
         onToggle={() => setCartCollapsed(!cartCollapsed)}
       />
     </div>
+  </div>
   );
 }
 

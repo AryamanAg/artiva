@@ -19,7 +19,7 @@ export default function CartSummary({
     >
       <aside
         className={`transition-transform duration-300 ${
-          collapsed ? 'translate-x-full' : ''
+          collapsed ? 'translate-x-[calc(100%+0.25rem)]' : ''
         }`}
       >
         <div className="border rounded-l-lg p-4 space-y-4 bg-white w-72">

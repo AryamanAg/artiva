@@ -23,7 +23,7 @@ export default function ProductCard({ product }) {
         <img
           src={product.images[selectedColor]}
           alt={product.title}
-          className="w-full h-48 object-cover rounded"
+          className="w-full object-cover rounded"
         />
       </Link>
 

@@ -10,12 +10,13 @@ export default function ProductCard({ product }) {
     product.basePrice?.[defaultSize.toLowerCase()] !== undefined
       ? product.basePrice[defaultSize.toLowerCase()]
       : product.price;
-  const quantity = cart.filter(
+  const existing = cart.find(
     (c) =>
       c.id === product.id &&
       c.size === defaultSize &&
       c.color === selectedColor
-  ).length;
+  );
+  const quantity = existing ? existing.quantity : 0;
 
   return (
     <div className="rounded-xl overflow-hidden shadow-md bg-white transition-transform transform hover:-translate-y-1 hover:shadow-lg">
@@ -59,6 +60,7 @@ export default function ProductCard({ product }) {
         color: selectedColor,
         price,
         image: product.images[selectedColor],
+        quantity: 1,
       })
     }
     className="py-2 px-4 text-sm font-medium bg-gray-100 text-gray-900 rounded-full hover:bg-gray-300 transition"

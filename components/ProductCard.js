@@ -95,7 +95,7 @@ export default function ProductCard({ product }) {
               </svg>
             </button>
             {showColors && (
-              <div className="absolute z-50 mt-1 bg-white border rounded w-full shadow max-h-40 overflow-y-auto">
+              <div className="absolute z-50 mt-1 bg-white border rounded w-full shadow max-h-32 overflow-y-auto">
                 {product.colors.map((color) => (
                   <button
                     key={color}

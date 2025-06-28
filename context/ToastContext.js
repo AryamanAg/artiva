@@ -8,20 +8,42 @@ export function ToastProvider({ children }) {
 
   const showToast = useCallback(() => {
     setVisible(true);
-    setTimeout(() => setVisible(false), 3000);
+    setTimeout(() => setVisible(false), 5000);
   }, []);
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-        {visible && (
-          <div className="fixed inset-0 flex items-center justify-center md:inset-auto md:bottom-4 md:left-4 md:items-end md:justify-start pointer-events-none z-50">
-          <div className="bg-white rounded-lg shadow-lg p-4 w-10/12 max-w-xs md:w-56 pointer-events-auto flex flex-col items-center md:flex-row md:items-center md:space-x-3">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 text-green-600 text-xl md:mb-0 mb-2">✓</div>
-            <p className="text-sm font-semibold md:text-left text-center flex-1">Added to Cart</p>
-            <div className="flex gap-2 mt-2 md:mt-0">
-              <button onClick={() => setVisible(false)} className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full hover:bg-gray-300 transition">Continue Shopping</button>
-              <Link href="/cart" className="px-3 py-1 text-xs font-medium bg-gray-800 text-white rounded-full hover:bg-gray-700 transition">View Cart</Link>
+      {visible && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Background overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-50 pointer-events-auto"></div>
+
+          {/* Modal box */}
+          <div className="relative bg-white rounded-lg shadow-lg p-6 w-10/12 max-w-md z-10 pointer-events-auto flex flex-col items-center space-y-4">
+            
+            {/* Green checkmark */}
+            <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-2xl">
+              ✓
+            </div>
+
+            {/* Message */}
+            <p className="text-center text-sm font-semibold">Added to Cart</p>
+
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 w-full justify-center">
+              <button
+                onClick={() => setVisible(false)}
+                className="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-full hover:bg-gray-300 transition"
+              >
+                Continue Shopping
+              </button>
+              <Link
+                href="/cart"
+                className="px-4 py-2 text-sm font-medium bg-gray-800 text-white rounded-full hover:bg-gray-700 transition text-center"
+              >
+                View Cart
+              </Link>
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ export default function PincodeChecker() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="text-sm underline text-gray-700"
+        className="text-base underline text-gray-700"
       >
         Check Delivery &amp; Services {open ? '-' : '+'}
       </button>

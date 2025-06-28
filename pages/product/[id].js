@@ -64,8 +64,8 @@ export default function ProductPage({ product }) {
             <p className="text-gray-700">{product.description}</p>
           </div>
 
-          <div className="text-sm space-y-1">
-            <h2 className="font-semibold">About this Item</h2>
+          <div className="text-sm space-y-1 w-[80%]">
+            <h2 className="font-semibold text-base">About this Item</h2>
             <div className="space-y-1">
               <div className="flex justify-between">
                 <span className="text-gray-600">Dimension</span>
@@ -82,7 +82,7 @@ export default function ProductPage({ product }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2 my-5">
+          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2 my-5 justify-items-start">
             <div className="flex flex-col items-center">
               <span>🔒</span>
               <span>Secure transaction</span>
@@ -147,7 +147,7 @@ export default function ProductPage({ product }) {
                   quantity,
                 })
               }
-              className="flex-1 px-6 py-3 rounded-full text-gray-900 active:scale-95 transition bg-[#ffce12] hover:bg-[#f7ca00]"
+              className="w-full md:w-[50%] flex-1 px-6 py-3 rounded-full text-gray-900 active:scale-95 transition bg-[#ffce12] hover:bg-[#f7ca00]"
             >
               Add to Cart
             </button>

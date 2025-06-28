@@ -31,15 +31,15 @@ export default function ProductPage({ product }) {
   if (!product) return <div className="p-4">Product not found</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-8">
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="flex-1 md:w-1/2">
+    <div className="w-full mx-auto p-4 md:p-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="space-y-4 md:sticky md:top-24 self-start">
           <img
             src={displayedImage}
             alt={product.title}
             className="w-full rounded-xl aspect-square object-contain"
           />
-          <div className="flex gap-2 mt-4 justify-end">
+          <div className="flex gap-2 justify-end">
             {product.colors.map((color) => (
               <button
                 key={color}
@@ -54,17 +54,17 @@ export default function ProductPage({ product }) {
               />
             ))}
           </div>
-          <div className="text-sm text-gray-500 mt-1 text-right">
-            {formattedColorName}
-          </div>
+          <div className="text-sm text-gray-500 text-right">{formattedColorName}</div>
         </div>
 
-        <div className="flex-1 md:w-1/2 flex flex-col">
-          <h1 className="text-2xl font-semibold mb-2">{product.title}</h1>
-          <p className="text-xl font-bold text-gray-800 mb-1">₹{price}</p>
-          <p className="text-gray-700 mb-4">{product.description}</p>
+        <div className="flex flex-col gap-6">
+          <div className="space-y-4">
+            <h1 className="text-2xl font-semibold">{product.title}</h1>
+            <p className="text-xl font-bold text-gray-800">₹{price}</p>
+            <p className="text-gray-700">{product.description}</p>
+          </div>
 
-          <div className="mb-6 text-sm space-y-1">
+          <div className="text-sm space-y-1">
             <h2 className="font-semibold">About this Item</h2>
             <div className="space-y-1">
               <div className="flex justify-between">
@@ -82,7 +82,7 @@ export default function ProductPage({ product }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2 mb-6">
+          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2">
             <div className="flex flex-col items-center">
               <span>🔒</span>
               <span>Secure transaction</span>
@@ -97,7 +97,7 @@ export default function ProductPage({ product }) {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2">
             {['Small', 'Medium', 'Large', 'Set'].map((size) => (
               <button
                 key={size}

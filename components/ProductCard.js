@@ -35,9 +35,9 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <div className="relative rounded-xl overflow-hidden shadow-md bg-white transition-transform transform hover:-translate-y-1 hover:shadow-lg">
+    <div className="relative rounded-xl shadow-md bg-white transition-transform transform hover:-translate-y-1 hover:shadow-lg">
       {added && (
-        <span className="absolute top-2 right-2 text-green-600 text-xl">✓</span>
+        <span className="absolute bottom-3 right-3 text-green-600 text-xl">✓</span>
       )}
       <Link href={`/product/${product.id}`}>
         <img
@@ -67,7 +67,18 @@ export default function ProductCard({ product }) {
                 />
                 {formatColorName(selectedColor)}
               </span>
-              <span className="ml-2">▼</span>
+              <svg
+                className="ml-2 w-4 h-4 text-gray-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </button>
             {showColors && (
               <div className="absolute z-10 mt-1 bg-white border rounded w-full shadow">

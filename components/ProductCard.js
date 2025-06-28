@@ -10,6 +10,10 @@ export default function ProductCard({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState('Medium');
   const [showColors, setShowColors] = useState(false);
+  const colorName = (colorMap[selectedColor] || '')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+  const defaultSize = 'Medium';
 
   const price =
     product.basePrice?.[selectedSize.toLowerCase()] !== undefined

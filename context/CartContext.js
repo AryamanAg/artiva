@@ -1,9 +1,15 @@
 import { createContext, useState, useEffect } from 'react';
+import { colorMap } from '@/lib/products';
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
+
+  const formatColorName = (color) =>
+    (colorMap[color] || '')
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, (c) => c.toUpperCase());
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -12,9 +18,13 @@ export function CartProvider({ children }) {
       if (stored) {
         try {
           const parsed = JSON.parse(stored);
-          const withQty = parsed.map((i) => ({ ...i, quantity: i.quantity ?? 1 }));
+          const withAttrs = parsed.map((i) => ({
+            ...i,
+            quantity: i.quantity ?? 1,
+            colorName: i.colorName || formatColorName(i.color),
+          }));
           const deduped = [];
-          withQty.forEach((i) => {
+          withAttrs.forEach((i) => {
             const index = deduped.findIndex(
               (p) => p.id === i.id && p.size === i.size && p.color === i.color
             );
@@ -42,6 +52,7 @@ export function CartProvider({ children }) {
   // Add a product variant (id + size + color) to the cart
   const addToCart = (item) => {
     const quantity = item.quantity ?? 1;
+    const colorName = item.colorName || formatColorName(item.color);
     setCart((prev) => {
       const index = prev.findIndex(
         (p) => p.id === item.id && p.size === item.size && p.color === item.color
@@ -54,7 +65,7 @@ export function CartProvider({ children }) {
         };
         return next;
       }
-      return [...prev, { ...item, quantity }];
+      return [...prev, { ...item, quantity, colorName }];
     });
   };
 
@@ -78,8 +89,12 @@ export function CartProvider({ children }) {
     });
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

@@ -14,9 +14,9 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      {visible && (
-        <div className="fixed inset-0 flex items-center justify-center md:inset-auto md:bottom-4 md:right-4 md:items-end md:justify-end pointer-events-none z-50">
-          <div className="bg-white rounded-lg shadow-lg p-4 w-[90%] max-w-xs md:w-64 pointer-events-auto flex flex-col items-center md:flex-row md:items-center md:space-x-3">
+        {visible && (
+          <div className="fixed inset-0 flex items-center justify-center md:inset-auto md:bottom-4 md:left-4 md:items-end md:justify-start pointer-events-none z-50">
+          <div className="bg-white rounded-lg shadow-lg p-4 w-10/12 max-w-xs md:w-56 pointer-events-auto flex flex-col items-center md:flex-row md:items-center md:space-x-3">
             <div className="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 text-green-600 text-xl md:mb-0 mb-2">✓</div>
             <p className="text-sm font-semibold md:text-left text-center flex-1">Added to Cart</p>
             <div className="flex gap-2 mt-2 md:mt-0">

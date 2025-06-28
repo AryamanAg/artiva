@@ -142,6 +142,7 @@ export default function ProductPage({ product }) {
                   title: product.title,
                   size: selectedSize,
                   color: selectedColor,
+                  colorName: formattedColorName,
                   price,
                   image: displayedImage,
                   quantity,

@@ -1,10 +1,14 @@
 import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
+import { colorMap } from '@/lib/products';
 
 export default function ProductCard({ product }) {
   const { cart, addToCart } = useContext(CartContext);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const colorName = (colorMap[selectedColor] || '')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
   const defaultSize = 'Medium';
   const price =
     product.basePrice?.[defaultSize.toLowerCase()] !== undefined
@@ -58,6 +62,7 @@ export default function ProductCard({ product }) {
         title: product.title,
         size: defaultSize,
         color: selectedColor,
+        colorName,
         price,
         image: product.images[selectedColor],
         quantity: 1,

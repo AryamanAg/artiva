@@ -1,10 +1,11 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CartContext } from '@/context/CartContext';
-import Navbar from '@/components/Navbar';
 import Link from 'next/link';
+import ConfirmModal from '@/components/ConfirmModal';
 
 export default function CartPage() {
-  const { cart, addToCart, removeFromCart } = useContext(CartContext);
+  const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const items = cart;
 
@@ -13,7 +14,17 @@ export default function CartPage() {
   return (
     <>
       <div className="max-w-3xl mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold">Your Cart</h1>
+          {cart.length > 0 && (
+            <button
+              onClick={() => setConfirmOpen(true)}
+              className="text-sm px-3 py-1 border rounded-full text-gray-700 hover:bg-gray-100"
+            >
+              Clear Cart
+            </button>
+          )}
+        </div>
 
         {cart.length === 0 ? (
           <div className="text-center text-gray-600 mt-10">
@@ -44,9 +55,7 @@ export default function CartPage() {
                         className="w-3 h-3 rounded-full border"
                         style={{ backgroundColor: item.color }}
                       />
-                      {!item.color.startsWith('#') && (
-                        <span className="ml-1">{item.color}</span>
-                      )}
+                      <span className="ml-1">{item.colorName}</span>
                     </div>
                     <p className="text-sm text-gray-500 mt-1">
                       ₹{item.price * item.quantity}
@@ -85,6 +94,15 @@ export default function CartPage() {
           </>
         )}
       </div>
+      <ConfirmModal
+        isOpen={confirmOpen}
+        message="Are you sure you want to remove all items from your cart?"
+        onConfirm={() => {
+          clearCart();
+          setConfirmOpen(false);
+        }}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </>
   );
 }

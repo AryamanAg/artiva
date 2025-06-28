@@ -1,20 +1,15 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
+import { ToastContext } from '@/context/ToastContext';
 import { colorMap } from '@/lib/products';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useContext(CartContext);
+  const { showToast } = useContext(ToastContext);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState('Medium');
-  const [added, setAdded] = useState(false);
   const [showColors, setShowColors] = useState(false);
-
-  useEffect(() => {
-    if (!added) return;
-    const timer = setTimeout(() => setAdded(false), 3000);
-    return () => clearTimeout(timer);
-  }, [added]);
 
   const price =
     product.basePrice?.[selectedSize.toLowerCase()] !== undefined
@@ -36,30 +31,11 @@ export default function ProductCard({ product }) {
       image: product.images[selectedColor],
       quantity: 1,
     });
-    setAdded(true);
+    showToast();
   };
 
   return (
     <div className="relative rounded-xl shadow-md bg-white transition-transform transform hover:-translate-y-1 hover:shadow-lg overflow-visible">
-      {added && (
-        <div className="fixed inset-0 flex items-center justify-center md:inset-auto md:bottom-4 md:left-4 md:justify-start md:items-end z-50 pointer-events-none">
-          <div className="bg-white rounded-lg shadow-lg p-4 w-[90%] max-w-xs md:w-64 pointer-events-auto flex flex-col items-center md:flex-row md:items-center md:space-x-3">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 text-green-600 text-xl md:mb-0 mb-2">✓</div>
-            <p className="text-sm font-semibold md:text-left text-center flex-1">Added to Cart</p>
-            <div className="flex gap-2 mt-2 md:mt-0">
-              <button
-                onClick={() => setAdded(false)}
-                className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full hover:bg-gray-300 transition"
-              >
-                Continue Shopping
-              </button>
-              <Link href="/cart" className="px-3 py-1 text-xs font-medium bg-gray-800 text-white rounded-full hover:bg-gray-700 transition">
-                View Cart
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
       <Link href={`/product/${product.id}`}>
         <img
           src={product.images[selectedColor]}

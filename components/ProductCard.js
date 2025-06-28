@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
 import { ToastContext } from '@/context/ToastContext';
@@ -10,6 +10,19 @@ export default function ProductCard({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState('Medium');
   const [showColors, setShowColors] = useState(false);
+  const colorRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (colorRef.current && !colorRef.current.contains(e.target)) {
+        setShowColors(false);
+      }
+    };
+    if (showColors) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showColors]);
   const colorName = (colorMap[selectedColor] || '')
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (c) => c.toUpperCase());
@@ -55,7 +68,7 @@ export default function ProductCard({ product }) {
         <p className="text-lg font-bold text-gray-800">₹{price}</p>
 
         <div className="space-y-2">
-          <div className="relative">
+          <div className="relative" ref={colorRef}>
             <button
               type="button"
               onClick={() => setShowColors((s) => !s)}
@@ -82,7 +95,7 @@ export default function ProductCard({ product }) {
               </svg>
             </button>
             {showColors && (
-              <div className="absolute z-50 mt-1 bg-white border rounded w-full shadow">
+              <div className="absolute z-50 mt-1 bg-white border rounded w-full shadow max-h-40 overflow-y-auto">
                 {product.colors.map((color) => (
                   <button
                     key={color}

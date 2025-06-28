@@ -33,7 +33,7 @@ export default function ProductPage({ product }) {
   return (
     <div className="w-full mx-auto p-4 md:p-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="space-y-4 md:sticky md:top-24 self-start">
+        <div className="w-[80%] space-y-4 md:sticky md:top-24 self-start mx-auto">
           <img
             src={displayedImage}
             alt={product.title}
@@ -82,7 +82,7 @@ export default function ProductPage({ product }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2">
+          <div className="grid grid-cols-3 text-xs text-gray-600 text-center gap-2 my-5">
             <div className="flex flex-col items-center">
               <span>🔒</span>
               <span>Secure transaction</span>
@@ -102,7 +102,7 @@ export default function ProductPage({ product }) {
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
-                className={`min-w-[72px] px-4 py-2 rounded-full border text-sm transition active:scale-95
+                className={`min-w-[64px] md:min-w-[72px] px-4 py-2 rounded-full border text-xs md:text-sm transition active:scale-95
                   ${
                     selectedSize === size
                       ? 'bg-gray-800 text-white cursor-default'
@@ -147,7 +147,7 @@ export default function ProductPage({ product }) {
                   quantity,
                 })
               }
-              className="flex-1 px-6 py-3 rounded-full bg-gray-100 text-gray-900 hover:bg-gray-300 active:scale-95 transition"
+              className="flex-1 px-6 py-3 rounded-full text-gray-900 active:scale-95 transition bg-[#ffce12] hover:bg-[#f7ca00]"
             >
               Add to Cart
             </button>

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
 import { colorMap } from '@/lib/products';
@@ -9,6 +9,12 @@ export default function ProductCard({ product }) {
   const [selectedSize, setSelectedSize] = useState('Medium');
   const [added, setAdded] = useState(false);
   const [showColors, setShowColors] = useState(false);
+
+  useEffect(() => {
+    if (!added) return;
+    const timer = setTimeout(() => setAdded(false), 3000);
+    return () => clearTimeout(timer);
+  }, [added]);
 
   const price =
     product.basePrice?.[selectedSize.toLowerCase()] !== undefined
@@ -36,18 +42,18 @@ export default function ProductCard({ product }) {
   return (
     <div className="relative rounded-xl shadow-md bg-white transition-transform transform hover:-translate-y-1 hover:shadow-lg overflow-visible">
       {added && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-[90%] max-w-xs text-center">
-            <div className="w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-green-100 text-green-600 text-2xl">✓</div>
-            <p className="text-lg font-semibold mb-4">Added to Cart</p>
-            <div className="flex justify-center gap-3">
+        <div className="fixed inset-0 flex items-center justify-center md:inset-auto md:bottom-4 md:left-4 md:justify-start md:items-end z-50 pointer-events-none">
+          <div className="bg-white rounded-lg shadow-lg p-4 w-[90%] max-w-xs md:w-64 pointer-events-auto flex flex-col items-center md:flex-row md:items-center md:space-x-3">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 text-green-600 text-xl md:mb-0 mb-2">✓</div>
+            <p className="text-sm font-semibold md:text-left text-center flex-1">Added to Cart</p>
+            <div className="flex gap-2 mt-2 md:mt-0">
               <button
                 onClick={() => setAdded(false)}
-                className="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-full hover:bg-gray-300 transition"
+                className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full hover:bg-gray-300 transition"
               >
                 Continue Shopping
               </button>
-              <Link href="/cart" className="px-4 py-2 text-sm font-medium bg-gray-800 text-white rounded-full hover:bg-gray-700 transition">
+              <Link href="/cart" className="px-3 py-1 text-xs font-medium bg-gray-800 text-white rounded-full hover:bg-gray-700 transition">
                 View Cart
               </Link>
             </div>
@@ -96,7 +102,7 @@ export default function ProductCard({ product }) {
               </svg>
             </button>
             {showColors && (
-              <div className="absolute z-20 mt-1 bg-white border rounded w-full shadow">
+              <div className="absolute z-50 mt-1 bg-white border rounded w-full shadow">
                 {product.colors.map((color) => (
                   <button
                     key={color}

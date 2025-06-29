@@ -1,15 +1,10 @@
 import { createContext, useState, useEffect } from 'react';
-import { colorMap } from '@/lib/products';
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
-  const formatColorName = (color) =>
-    (colorMap[color] || '')
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, (c) => c.toUpperCase());
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -21,7 +16,6 @@ export function CartProvider({ children }) {
           const withAttrs = parsed.map((i) => ({
             ...i,
             quantity: i.quantity ?? 1,
-            colorName: i.colorName || formatColorName(i.color),
           }));
           const deduped = [];
           withAttrs.forEach((i) => {
@@ -52,7 +46,7 @@ export function CartProvider({ children }) {
   // Add a product variant (id + size + color) to the cart
   const addToCart = (item) => {
     const quantity = item.quantity ?? 1;
-    const colorName = item.colorName || formatColorName(item.color);
+    const colorName = item.colorName || '';
     setCart((prev) => {
       const index = prev.findIndex(
         (p) => p.id === item.id && p.size === item.size && p.color === item.color

@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { CartContext } from '@/context/CartContext';
+import { sizeLabels } from '@/lib/products';
 import Link from 'next/link';
 import ConfirmModal from '@/components/ConfirmModal';
 
@@ -47,7 +48,7 @@ export default function CartPage() {
                   <div className="flex-1">
                     <h2 className="font-medium text-gray-800">{item.title}</h2>
                     <p className="text-xs text-gray-500">
-                      Size: {item.size}
+                      Size: {sizeLabels[item.size] || item.size}
                     </p>
                     <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
                       <span>Color:</span>

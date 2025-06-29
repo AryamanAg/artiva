@@ -2,13 +2,13 @@ import { useContext, useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
 import { ToastContext } from '@/context/ToastContext';
-import { colorMap } from '@/lib/products';
+import { sizeLabels } from '@/lib/products';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useContext(CartContext);
   const { showToast } = useContext(ToastContext);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState('Medium');
+  const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [showColors, setShowColors] = useState(false);
   const colorRef = useRef(null);
 
@@ -23,29 +23,17 @@ export default function ProductCard({ product }) {
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showColors]);
-  const colorName = (colorMap[selectedColor] || '')
-    .replace(/-/g, ' ')
-    .replace(/\b\w/g, (c) => c.toUpperCase());
-  const defaultSize = 'Medium';
-
-  const price =
-    product.basePrice?.[selectedSize.toLowerCase()] !== undefined
-      ? product.basePrice[selectedSize.toLowerCase()]
-      : product.price;
-
-  const formatColorName = (color) =>
-    (colorMap[color] || color)
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, (c) => c.toUpperCase());
+  const price = selectedColor.pricing[selectedSize];
 
   const handleAdd = () => {
     addToCart({
       id: product.id,
       title: product.title,
       size: selectedSize,
-      color: selectedColor,
+      color: selectedColor.hex,
+      colorName: selectedColor.name,
       price,
-      image: product.images[selectedColor],
+      image: selectedColor.image,
       quantity: 1,
     });
     showToast();
@@ -55,7 +43,7 @@ export default function ProductCard({ product }) {
     <div className="relative rounded-xl shadow-md bg-white transition-transform transform hover:-translate-y-1 hover:shadow-lg overflow-visible">
       <Link href={`/product/${product.id}`}>
         <img
-          src={product.images[selectedColor]}
+          src={selectedColor.image}
           alt={product.title}
           className="w-full object-cover rounded"
         />
@@ -77,9 +65,9 @@ export default function ProductCard({ product }) {
               <span className="flex items-center">
                 <span
                   className="w-4 h-4 rounded-full mr-2"
-                  style={{ backgroundColor: selectedColor }}
+                  style={{ backgroundColor: selectedColor.hex }}
                 />
-                {formatColorName(selectedColor)}
+                {selectedColor.name}
               </span>
               <svg
                 className="ml-2 w-4 h-4 text-gray-500"
@@ -98,7 +86,7 @@ export default function ProductCard({ product }) {
               <div className="absolute z-50 mt-1 bg-white border rounded w-full shadow max-h-32 overflow-y-auto">
                 {product.colors.map((color) => (
                   <button
-                    key={color}
+                    key={color.hex}
                     onClick={() => {
                       setSelectedColor(color);
                       setShowColors(false);
@@ -107,9 +95,9 @@ export default function ProductCard({ product }) {
                   >
                     <span
                       className="w-4 h-4 rounded-full mr-2"
-                      style={{ backgroundColor: color }}
+                      style={{ backgroundColor: color.hex }}
                     />
-                    {formatColorName(color)}
+                    {color.name}
                   </button>
                 ))}
               </div>
@@ -122,9 +110,9 @@ export default function ProductCard({ product }) {
               value={selectedSize}
               onChange={(e) => setSelectedSize(e.target.value)}
             >
-              {['Small', 'Medium', 'Large'].map((size) => (
+              {product.sizes.map((size) => (
                 <option key={size} value={size}>
-                  {size}
+                  {sizeLabels[size] || size}
                 </option>
               ))}
             </select>

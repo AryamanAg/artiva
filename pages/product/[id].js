@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { products, colorMap } from '@/lib/products';
+import { products, sizeLabels } from '@/lib/products';
 import { CartContext } from '@/context/CartContext';
 import AccordionSection from '@/components/AccordionSection';
 import PincodeChecker from '@/components/PincodeChecker';
@@ -7,26 +7,20 @@ import PincodeChecker from '@/components/PincodeChecker';
 export default function ProductPage({ product }) {
   const { addToCart } = useContext(CartContext);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState('Medium');
+  const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [quantity, setQuantity] = useState(1);
   const [openSection, setOpenSection] = useState(null);
 
-  const price =
-    product.basePrice?.[selectedSize.toLowerCase()] !== undefined
-      ? product.basePrice[selectedSize.toLowerCase()]
-      : product.price;
-  const displayedImage = product.images[selectedColor];
+  const price = selectedColor.pricing[selectedSize];
+  const displayedImage = selectedColor.image;
   const dimension =
     typeof product.dimension === 'object'
-      ? product.dimension[selectedSize.toLowerCase()] || ''
+      ? product.dimension[selectedSize] || ''
       : product.dimension;
   const weight =
     typeof product.weight === 'object'
-      ? product.weight[selectedSize.toLowerCase()] || ''
+      ? product.weight[selectedSize] || ''
       : product.weight;
-  const formattedColorName = (colorMap[selectedColor] || '')
-    .replace(/-/g, ' ')
-    .replace(/\b\w/g, (c) => c.toUpperCase());
 
   if (!product) return <div className="p-4">Product not found</div>;
 
@@ -42,19 +36,17 @@ export default function ProductPage({ product }) {
           <div className="flex gap-2 justify-end">
             {product.colors.map((color) => (
               <button
-                key={color}
-                aria-label={(colorMap[color] || '')
-                  .replace(/-/g, ' ')
-                  .replace(/\b\w/g, (c) => c.toUpperCase())}
+                key={color.hex}
+                aria-label={color.name}
                 onClick={() => setSelectedColor(color)}
                 className={`w-6 h-6 rounded-full border-2 ${
-                  selectedColor === color ? 'border-gray-700' : 'border-transparent'
+                  selectedColor.hex === color.hex ? 'border-gray-700' : 'border-transparent'
                 }`}
-                style={{ backgroundColor: color }}
+                style={{ backgroundColor: color.hex }}
               />
             ))}
           </div>
-          <div className="text-sm text-gray-500 text-right">{formattedColorName}</div>
+          <div className="text-sm text-gray-500 text-right">{selectedColor.name}</div>
         </div>
 
         <div className="flex flex-col gap-6">
@@ -98,7 +90,7 @@ export default function ProductPage({ product }) {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {['Small', 'Medium', 'Large', 'Set'].map((size) => (
+            {product.sizes.map((size) => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
@@ -109,7 +101,7 @@ export default function ProductPage({ product }) {
                       : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                   }`}
               >
-                {size}
+                {sizeLabels[size] || size}
               </button>
             ))}
           </div>
@@ -141,8 +133,8 @@ export default function ProductPage({ product }) {
                   id: product.id,
                   title: product.title,
                   size: selectedSize,
-                  color: selectedColor,
-                  colorName: formattedColorName,
+                  color: selectedColor.hex,
+                  colorName: selectedColor.name,
                   price,
                   image: displayedImage,
                   quantity,

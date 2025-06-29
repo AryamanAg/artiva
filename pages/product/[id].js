@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { products } from '@/lib/products';
+import { products, sizeLabels } from '@/lib/products';
 import { CartContext } from '@/context/CartContext';
 import AccordionSection from '@/components/AccordionSection';
 import PincodeChecker from '@/components/PincodeChecker';
@@ -101,7 +101,7 @@ export default function ProductPage({ product }) {
                       : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                   }`}
               >
-                {size}
+                {sizeLabels[size] || size}
               </button>
             ))}
           </div>

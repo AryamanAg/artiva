@@ -2,6 +2,7 @@ import { useContext, useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { CartContext } from '@/context/CartContext';
 import { ToastContext } from '@/context/ToastContext';
+import { sizeLabels } from '@/lib/products';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useContext(CartContext);
@@ -111,7 +112,7 @@ export default function ProductCard({ product }) {
             >
               {product.sizes.map((size) => (
                 <option key={size} value={size}>
-                  {size}
+                  {sizeLabels[size] || size}
                 </option>
               ))}
             </select>

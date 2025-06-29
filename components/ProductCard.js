@@ -49,7 +49,7 @@ export default function ProductCard({ product }) {
         />
       </Link>
 
-      <div className="p-4 flex flex-col space-y-3">
+      <div className="p-4 pt-0 flex flex-col space-y-3">
         <Link href={`/product/${product.id}`} className="block hover:underline">
           <h2 className="text-lg font-semibold text-gray-900 mb-1">{product.title}</h2>
         </Link>

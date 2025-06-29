@@ -15,7 +15,7 @@ export default function Navbar() {
       <nav className="flex items-center justify-between px-4 py-1 shadow-sm sticky top-0 bg-white z-50 border-b">
 
         {/* LEFT: Burger on mobile, logo on desktop */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-2 md:gap-8">
           {/* Burger menu (only mobile) */}
           <button className="md:hidden text-xl mr-2" onClick={() => setMenuOpen(!menuOpen)}>
             ☰
@@ -23,8 +23,8 @@ export default function Navbar() {
 
           {/* Logo + Brand */}
           <Link href="/" className="flex items-center gap-2">
-            <img src="/artiva-logo.webp" alt="logo" className="w-6 h-6" />
-              <h1 className="text-xl font-bold tracking-tight">Artivo</h1>
+            <img src="/artiva-logo.webp" alt="logo" className="hidden md:flex w-6 h-6" />
+            <h1 className="text-xl font-bold tracking-tight">Artivo</h1>
           </Link>
 
           {/* CENTER: Nav links (desktop only) */}

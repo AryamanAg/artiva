@@ -6,20 +6,48 @@ export default function PincodeChecker() {
   const [inputPin, setInputPin] = useState('');
   const [message, setMessage] = useState('');
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     setInputPin(pincode || '');
   }, [pincode]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(false);
+    setMessage('');
     if (!inputPin) return;
     const valid = /^\d{6}$/.test(inputPin);
-    if (valid) {
-      setPincode(inputPin);
-      setMessage('Serviceable');
-    } else {
-      setMessage('Not serviceable');
+    if (!valid) {
+      setMessage('Invalid pincode');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/pincode-check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pincode: inputPin }),
+      });
+      const data = await res.json();
+
+      if (res.status === 429) {
+        setError(true);
+        setMessage(
+          'Rate limit exceeded. Please try again later. If the issue persists, contact support.'
+        );
+        return;
+      }
+
+      if (res.ok && data.serviceable) {
+        setPincode(inputPin);
+        setMessage(data.message || 'Serviceable');
+      } else {
+        setMessage(data.message || 'Not deliverable to this location');
+      }
+    } catch (err) {
+      setError(true);
+      setMessage('Error checking serviceability. Please try again later.');
     }
   };
 
@@ -54,13 +82,25 @@ export default function PincodeChecker() {
           </button>
         </form>
         {message && (
-          <p
-            className={`text-sm mt-2 ${
-              message === 'Serviceable' ? 'text-green-600' : 'text-red-600'
-            }`}
-          >
-            {message}
-          </p>
+          <div className="mt-2 text-sm">
+            <p
+              className={
+                message.includes('Serviceable') || message.startsWith('Deliverable')
+                  ? 'text-green-600'
+                  : 'text-red-600'
+              }
+            >
+              {message}
+            </p>
+            {error && (
+              <a
+                href="mailto:support@artiva.in"
+                className="underline text-gray-700 block mt-1"
+              >
+                Notify Admin
+              </a>
+            )}
+          </div>
         )}
       </div>
     </div>

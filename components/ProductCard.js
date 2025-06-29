@@ -7,7 +7,10 @@ import { sizeLabels } from '@/lib/products';
 export default function ProductCard({ product }) {
   const { addToCart } = useContext(CartContext);
   const { showToast } = useContext(ToastContext);
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedColor, setSelectedColor] = useState(() => {
+    const idx = Math.floor(Math.random() * product.colors.length);
+    return product.colors[idx];
+  });
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [showColors, setShowColors] = useState(false);
   const colorRef = useRef(null);

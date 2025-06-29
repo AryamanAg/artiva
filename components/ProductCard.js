@@ -45,6 +45,9 @@ export default function ProductCard({ product }) {
         <img
           src={selectedColor.image}
           alt={product.title}
+          loading="lazy"
+          width="400"
+          height="400"
           className="w-full object-cover rounded"
         />
       </Link>

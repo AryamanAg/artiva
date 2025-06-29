@@ -43,7 +43,7 @@ export default function Home() {
         <Image src="/abc.webp" alt="Hero" fill priority className="object-cover" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black/40">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">Elevate Your Space</h1>
-          <p className="text-lg md:text-xl mb-6 text-center">Discover artisan crafted decor.</p>
+          <p className="text-lg md:text-xl mb-6 text-center">Modern Decor, Precisely 3D Printed</p>
           <Link href="/category/vasari" className="bg-white text-gray-900 px-6 py-3 rounded-full font-medium">
             Explore Collection
           </Link>
@@ -75,30 +75,6 @@ export default function Home() {
         </p>
         <div className="relative w-full h-64 md:h-96">
           <Image src="/xyz.webp" alt="Lifestyle" fill className="object-cover rounded-lg" />
-        </div>
-      </section>
-
-      <section className="bg-gray-100 py-16 px-4">
-        <div className="max-w-md mx-auto text-center space-y-4">
-          <h2 className="text-2xl font-semibold">Join our newsletter</h2>
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="Your email"
-              className="flex-grow border rounded px-3 py-2"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-gray-800 text-white px-4 py-2 rounded disabled:opacity-50"
-            >
-              {loading ? '...' : 'Subscribe'}
-            </button>
-          </form>
-          {status && <p className="text-sm mt-2">{status}</p>}
         </div>
       </section>
     </div>

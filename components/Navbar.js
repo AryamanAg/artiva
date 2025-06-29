@@ -15,7 +15,7 @@ export default function Navbar() {
       <nav className="flex items-center justify-between px-4 py-1 shadow-sm sticky top-0 bg-white z-50 border-b">
 
         {/* LEFT: Burger on mobile, logo on desktop */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-8">
           {/* Burger menu (only mobile) */}
           <button className="md:hidden text-xl mr-2" onClick={() => setMenuOpen(!menuOpen)}>
             ☰
@@ -26,13 +26,13 @@ export default function Navbar() {
             <img src="/artiva-logo.webp" alt="logo" className="w-6 h-6" />
               <h1 className="text-xl font-bold tracking-tight">Artivo</h1>
           </Link>
-        </div>
 
-        {/* CENTER: Nav links (desktop only) */}
-        <div className="hidden md:flex gap-8 text-base font-medium text-gray-700 ">
-          <Link href="/category/vasari" className="px-4 py-2 rounded-full bg-transparent hover:bg-gray-100 transition-colors duration-200">Vasari</Link>
-          <Link href="/category/noctra" className="px-4 py-2 rounded-full bg-transparent hover:bg-gray-100 transition-colors duration-200">Noctra</Link>
-          <Link href="/category/deskly" className="px-4 py-2 rounded-full bg-transparent hover:bg-gray-100 transition-colors duration-200">Deskly</Link>
+          {/* CENTER: Nav links (desktop only) */}
+          <div className="hidden md:flex gap-4 text-base font-medium text-gray-700 ">
+            <Link href="/category/vasari" className="px-4 py-2 rounded-full bg-transparent hover:bg-gray-100 transition-colors duration-200">Vasari</Link>
+            <Link href="/category/noctra" className="px-4 py-2 rounded-full bg-transparent hover:bg-gray-100 transition-colors duration-200">Noctra</Link>
+            <Link href="/category/deskly" className="px-4 py-2 rounded-full bg-transparent hover:bg-gray-100 transition-colors duration-200">Deskly</Link>
+          </div>
         </div>
 
         {/* RIGHT: Location + Cart */}

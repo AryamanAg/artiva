@@ -35,8 +35,8 @@ export default function Footer() {
         {/* Branding + Newsletter */}
         <div className="flex-1 min-w-[240px] flex flex-col items-center text-left">
           <h2 className="text-xl font-bold mb-2">Artivo</h2>
-          <p className="mb-4">Timeless decor, delivered with care.</p>
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+          <p className="mb-4">Elevate your space</p>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
             <input
               type="email"
               value={email}
@@ -59,10 +59,10 @@ export default function Footer() {
         <div className="flex-1 min-w-[180px] flex flex-col items-center text-left">
           <h3 className="font-semibold mb-2 text-base">Shop</h3>
           <ul className="space-y-1 text-base">
-            <li><a href="/category/vasari">Vasari</a></li>
-            <li><a href="/category/noctra">Noctra</a></li>
-            <li><a href="/category/deskly">Deskly</a></li>
-            <li><a href="/cart">Cart</a></li>
+            <li><a href="/category/vasari" className="text-[#4B5563] hover:[color:#111827]">Vasari</a></li>
+            <li><a href="/category/noctra" className="text-[#4B5563] hover:[color:#111827]">Noctra</a></li>
+            <li><a href="/category/deskly" className="text-[#4B5563] hover:[color:#111827]">Deskly</a></li>
+            <li><a href="/cart" className="text-[#4B5563] hover:[color:#111827]">Cart</a></li>
           </ul>
         </div>
 
@@ -70,9 +70,9 @@ export default function Footer() {
         <div className="flex-1 min-w-[180px] flex flex-col items-center text-left">
           <h3 className="font-semibold mb-2 text-base">Company</h3>
           <ul className="space-y-1 text-base">
-            <li><a href="/terms">Terms of Service</a></li>
-            <li><a href="/privacy">Privacy Policy</a></li>
-            <li><a href="mailto:support@artiva.in">support@artiva.in</a></li>
+            <li><a href="/terms" className="text-[#4B5563] hover:[color:#111827]">Terms of Service</a></li>
+            <li><a href="/privacy" className="text-[#4B5563] hover:[color:#111827]">Privacy Policy</a></li>
+            <li><a href="mailto:support@artiva.in" className="text-[#4B5563] hover:[color:#111827]">support@artiva.in</a></li>
           </ul>
         </div>
       </div>

@@ -38,7 +38,7 @@ export default function AccordionSection({ title, isOpen, onToggle, children }) 
       </button>
       <div
         ref={contentRef}
-        className={`px-4 overflow-hidden text-sm text-gray-700 transition-all ${
+        className={`px-4 overflow-hidden text-base text-gray-700 transition-all ${
           isOpen ? 'pb-4' : 'pb-0'
         }`}
         style={{ maxHeight: isOpen ? contentRef.current?.scrollHeight : 0 }}

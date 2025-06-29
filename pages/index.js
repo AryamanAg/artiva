@@ -44,7 +44,7 @@ export default function Home() {
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black/40">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">Elevate Your Space</h1>
           <p className="text-lg md:text-xl mb-6 text-center">Modern Decor, Precisely 3D Printed</p>
-          <Link href="/category/vasari" className="bg-white text-gray-900 px-6 py-3 rounded-full font-medium">
+          <Link href="/category/vasari" className="bg-white text-gray-900 px-6 py-3 rounded-full font-medium hover:bg-gray-200">
             Explore Collection
           </Link>
         </div>
@@ -68,7 +68,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 text-center space-y-6">
+      <section className="max-w-6xl mx-auto px-4 text-center space-y-6 pb-12">
         <h2 className="text-2xl font-semibold">Why Choose Artivo?</h2>
         <p className="text-gray-700">
           We combine cutting-edge 3D printing technology with thoughtful design to create products that enhance your lifestyle.

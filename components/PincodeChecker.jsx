@@ -41,6 +41,9 @@ export default function PincodeChecker() {
 
       if (res.ok && data.serviceable) {
         setPincode(inputPin);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('serviceablePin', inputPin);
+        }
         setMessage(data.message || 'Serviceable');
       } else {
         setMessage(data.message || 'Not deliverable to this location');

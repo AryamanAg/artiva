@@ -55,10 +55,10 @@ export default function Footer() {
           {status && <p className="mt-2 text-sm">{status}</p>}
         </div>
 
-        {/* Quick Links */}
+        {/* Shop */}
         <div className="flex-1 min-w-[180px] flex flex-col items-center text-left">
-          <h3 className="font-semibold mb-2">Quick Links</h3>
-          <ul className="space-y-1">
+          <h3 className="font-semibold mb-2 text-base">Shop</h3>
+          <ul className="space-y-1 text-base">
             <li><a href="/category/vasari">Vasari</a></li>
             <li><a href="/category/noctra">Noctra</a></li>
             <li><a href="/category/deskly">Deskly</a></li>
@@ -66,10 +66,10 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Info */}
+        {/* Company */}
         <div className="flex-1 min-w-[180px] flex flex-col items-center text-left">
-          <h3 className="font-semibold mb-2">Info</h3>
-          <ul className="space-y-1">
+          <h3 className="font-semibold mb-2 text-base">Company</h3>
+          <ul className="space-y-1 text-base">
             <li><a href="/terms">Terms of Service</a></li>
             <li><a href="/privacy">Privacy Policy</a></li>
             <li><a href="mailto:support@artiva.in">support@artiva.in</a></li>

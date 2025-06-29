@@ -13,10 +13,14 @@ export default function ProductPage({ product }) {
 
   const price = selectedColor.pricing[selectedSize];
   const displayedImage = selectedColor.image;
-  const dimension =
-    typeof product.dimension === 'object'
-      ? product.dimension[selectedSize] || ''
-      : product.dimension;
+  const height =
+    typeof product.height === 'object'
+      ? product.height[selectedSize] || ''
+      : product.height;
+  const diameter =
+    typeof product.diameter === 'object'
+      ? product.diameter[selectedSize] || ''
+      : product.diameter;
   const weight =
     typeof product.weight === 'object'
       ? product.weight[selectedSize] || ''
@@ -60,8 +64,12 @@ export default function ProductPage({ product }) {
             <h2 className="font-semibold text-base">About this Item</h2>
             <div className="space-y-1">
               <div className="flex justify-between">
-                <span className="text-gray-600">Dimension</span>
-                <span>{dimension}</span>
+                <span className="text-gray-600">Height</span>
+                <span>{height}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Diameter</span>
+                <span>{diameter}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Weight</span>

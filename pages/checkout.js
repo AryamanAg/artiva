@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+import Script from 'next/script';
 import { CartContext } from '@/context/CartContext';
 import { LocationContext } from '@/context/LocationContext';
 import Navbar from '@/components/Navbar';
@@ -11,6 +12,7 @@ export default function Checkout() {
 
   const [form, setForm] = useState({
     name: '',
+    email: '',
     phone: '',
     address: '',
     city: '',
@@ -36,31 +38,102 @@ export default function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // persist the address so future visits can be pre-filled
-    setAddress({
+    const address = {
       name: form.name,
       street: form.address,
       city: form.city,
       phone: form.phone,
       pincode: form.pincode,
-    });
+    };
+
+    // persist address & pin locally
+    setAddress(address);
     setPincode(form.pincode);
+
+    const items = cart.map((item) => ({
+      id: item.id,
+      size: item.size,
+      color: item.color,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+
+    const orderData = {
+      userEmail: form.email,
+      items,
+      deliveryAddress: address,
+      totalAmount: total,
+    };
+
     if (form.payment === 'razorpay') {
-      alert('💳 Razorpay would trigger here.');
+      try {
+        const resp = await fetch('/api/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: total }),
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error('Failed to create order');
+
+        const options = {
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          amount: data.amount,
+          currency: data.currency,
+          order_id: data.orderId,
+          handler: async (response) => {
+            const verify = await fetch('/api/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                orderId: response.razorpay_order_id,
+                paymentId: response.razorpay_payment_id,
+                signature: response.razorpay_signature,
+                orderData,
+              }),
+            });
+            if (verify.ok) {
+              alert('Order placed successfully');
+            } else {
+              alert('Payment verification failed');
+            }
+          },
+        };
+
+        const rz = new window.Razorpay(options);
+        rz.open();
+      } catch (err) {
+        console.error(err);
+        alert('Payment initiation failed');
+      }
     } else {
-      alert('✅ Order placed with Cash on Delivery.');
+      try {
+        const resp = await fetch('/api/cod-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderData }),
+        });
+        if (resp.ok) {
+          alert("Order placed. You'll pay on delivery.");
+        } else {
+          alert('Failed to place order');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Failed to place order');
+      }
     }
   };
 
   return (
     <>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
       <div className="max-w-xl mx-auto p-4">
         <h1 className="text-2xl font-bold mb-6">Checkout</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {['name', 'phone', 'address', 'city', 'pincode'].map((field) => (
+          {['name', 'email', 'phone', 'address', 'city', 'pincode'].map((field) => (
             <input
               key={field}
               name={field}

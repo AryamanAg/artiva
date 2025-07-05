@@ -3,6 +3,7 @@ import { products, sizeLabels } from '@/lib/products';
 import { CartContext } from '@/context/CartContext';
 import AccordionSection from '@/components/AccordionSection';
 import PincodeChecker from '@/components/PincodeChecker';
+import Head from 'next/head';
 
 export default function ProductPage({ product }) {
   const { addToCart } = useContext(CartContext);
@@ -10,6 +11,9 @@ export default function ProductPage({ product }) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [quantity, setQuantity] = useState(1);
   const [openSection, setOpenSection] = useState(null);
+
+  const title = `${product.title} - Artiva`;
+  const description = product.description;
 
   const price = selectedColor.pricing[selectedSize];
   const displayedImage = selectedColor.image;
@@ -29,12 +33,48 @@ export default function ProductPage({ product }) {
   if (!product) return <div className="p-4">Product not found</div>;
 
   return (
-    <div className="w-full mx-auto p-4 md:p-8">
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={displayedImage} />
+        <meta property="og:url" content={`https://yourdomain.com/product/${product.id}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={displayedImage} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Product',
+              name: product.title,
+              image: [displayedImage],
+              description: product.description,
+              brand: { '@type': 'Brand', name: 'Artiva' },
+              sku: product.id,
+              offers: {
+                '@type': 'Offer',
+                priceCurrency: 'INR',
+                price,
+                url: `https://yourdomain.com/product/${product.id}`,
+              },
+            }),
+          }}
+        />
+      </Head>
+      <div className="w-full mx-auto p-4 md:p-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="w-[80%] space-y-4 md:sticky md:top-24 self-start mx-auto">
           <img
             src={displayedImage}
             alt={product.title}
+            width="500"
+            height="500"
             className="w-full rounded-xl aspect-square object-contain"
           />
           <div className="flex gap-2 justify-end">
@@ -220,6 +260,7 @@ export default function ProductPage({ product }) {
         </AccordionSection>
       </div>
     </div>
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import { CartContext } from '@/context/CartContext';
 import { sizeLabels } from '@/lib/products';
 import Link from 'next/link';
 import ConfirmModal from '@/components/ConfirmModal';
+import Head from 'next/head';
 
 export default function CartPage() {
   const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
@@ -12,8 +13,24 @@ export default function CartPage() {
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  const title = 'Your Cart - Artiva';
+  const description = 'Review items in your shopping cart and proceed to checkout.';
+
   return (
     <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="/artiva-logo.webp" />
+        <meta property="og:url" content="https://yourdomain.com/cart" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content="/artiva-logo.webp" />
+      </Head>
       <div className="max-w-3xl mx-auto p-4">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Your Cart</h1>
@@ -43,6 +60,9 @@ export default function CartPage() {
                   <img
                     src={item.image}
                     alt={item.title}
+                    loading="lazy"
+                    width="80"
+                    height="80"
                     className="w-20 h-20 object-cover rounded-md"
                   />
                   <div className="flex-1">

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import Head from 'next/head';
 import { useState } from 'react';
 
 export default function Home() {
@@ -8,6 +9,10 @@ export default function Home() {
     { slug: 'noctra', name: 'Noctra', image: '/def.jpg' },
     { slug: 'deskly', name: 'Deskly', image: '/xyz.webp' },
   ];
+
+  const title = 'Artiva - Modern 3D Printed Decor';
+  const description =
+    'Explore modern home decor 3D printed with precision. Shop vases, accessories and more from Artiva.';
 
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
@@ -38,9 +43,40 @@ export default function Home() {
   };
 
   return (
-    <div className="space-y-24">
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="/abc.webp" />
+        <meta property="og:url" content="https://yourdomain.com/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content="/abc.webp" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'Artiva',
+              url: 'https://yourdomain.com',
+            }),
+          }}
+        />
+      </Head>
+      <div className="space-y-24">
       <section className="relative h-[60vh] w-full">
-        <Image src="/abc.webp" alt="Hero" fill priority className="object-cover" />
+        <Image
+          src="/abc.webp"
+          alt="Artiva modern decor hero image"
+          fill
+          priority
+          className="object-cover"
+        />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black/40">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">Elevate Your Space</h1>
           <p className="text-lg md:text-xl mb-6 text-center">Modern Decor, Precisely 3D Printed</p>
@@ -110,6 +146,7 @@ export default function Home() {
         </div>
       </section>
     </div>
+    </>
   );
 }
 

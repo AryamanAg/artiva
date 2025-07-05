@@ -1,9 +1,41 @@
 import ProductCard from '@/components/ProductCard';
 import { products } from '@/lib/products';
+import Head from 'next/head';
 
 export default function CategoryPage({ slug, items }) {
+  const title = `${slug.charAt(0).toUpperCase() + slug.slice(1)} - Artiva`;
+  const description = `Explore the ${slug} collection from Artiva.`;
   return (
-    <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="/artiva-logo.webp" />
+        <meta property="og:url" content={`https://yourdomain.com/category/${slug}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content="/artiva-logo.webp" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ItemList',
+              itemListElement: items.map((p, idx) => ({
+                '@type': 'ListItem',
+                position: idx + 1,
+                url: `https://yourdomain.com/product/${p.id}`,
+                name: p.title,
+              })),
+            }),
+          }}
+        />
+      </Head>
+      <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
       <h1 className="text-2xl md:text-3xl font-semibold mb-6 capitalize text-center">
         {slug}
       </h1>
@@ -17,6 +49,7 @@ export default function CategoryPage({ slug, items }) {
         <p className="text-center text-gray-600">No products found.</p>
       )}
     </div>
+    </>
   );
 }
 

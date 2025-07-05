@@ -24,10 +24,10 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Razorpay error:', errorText);
+      console.error('Razorpay error:', data);
       return res.status(500).json({ message: 'Razorpay order creation failed' });
     }
+
     return res.status(200).json({
       orderId: data.id,
       amount: data.amount,

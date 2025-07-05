@@ -8,7 +8,10 @@ export default function Checkout() {
   const { cart } = useContext(CartContext);
   const { address: savedAddress, pincode: savedPin, setAddress, setPincode } =
     useContext(LocationContext);
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const total = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   const [form, setForm] = useState({
     name: '',
